@@ -19,37 +19,37 @@
 
 # These files needs special handling.
 #
-# devtools/shared/loader/Loader.jsm
-# toolkit/components/ctypes/ctypes.jsm
-# toolkit/components/passwordmgr/PasswordRulesParser.jsm
-# dom/push/PushService.jsm
-# toolkit/components/bitsdownload/Bits.jsm
+# browser/components/enterprisepolicies/schemas/schema.jsm
 # browser/components/newtab/vendor/Redux.jsm
-# python/mozbuild/mozbuild/test/backend/data/build/bar.jsm
+# browser/components/urlbar/UrlbarPrefs.jsm
+# devtools/client/performance-new/popup/background.jsm.js
+# devtools/shared/loader/Loader.jsm
+# dom/media/webvtt/vtt.jsm
+# dom/push/PushService.jsm
+# intl/l10n/FluentSyntax.jsm
 # js/xpconnect/tests/unit/bogus_element_type.jsm
 # js/xpconnect/tests/unit/bogus_exports_type.jsm
 # js/xpconnect/tests/unit/importer.jsm
-# devtools/client/performance-new/popup/background.jsm.js
 # js/xpconnect/tests/unit/syntax_error.jsm
-# python/mozbuild/mozbuild/test/backend/data/build/qux.jsm
-# python/mozbuild/mozbuild/test/backend/data/build/foo.jsm
-# services/common/kinto-offline-client.jsm
-# dom/media/webvtt/vtt.jsm
-# toolkit/components/extensions/Extension.jsm
+# python/mozbuild/mozbuild/test/backend/data/build/bar.jsm
 # python/mozbuild/mozbuild/test/backend/data/build/baz.jsm
-# services/common/kinto-http-client.jsm
-# intl/l10n/FluentSyntax.jsm
+# python/mozbuild/mozbuild/test/backend/data/build/foo.jsm
+# python/mozbuild/mozbuild/test/backend/data/build/qux.jsm
 # remote/marionette/atom.jsm
-# browser/components/urlbar/UrlbarPrefs.jsm
+# services/common/kinto-http-client.jsm
+# services/common/kinto-offline-client.jsm
+# toolkit/components/bitsdownload/Bits.jsm
+# toolkit/components/ctypes/ctypes.jsm
+# toolkit/components/extensions/Extension.jsm
+# toolkit/components/passwordmgr/PasswordRulesParser.jsm
 # toolkit/components/reader/Readerable.jsm
-# browser/components/enterprisepolicies/schemas/schema.jsm
+# toolkit/components/utils/mozjexl.jsm
+# toolkit/modules/AppConstants.jsm
 # toolkit/modules/subprocess/subprocess_common.jsm
 # toolkit/modules/subprocess/subprocess_unix.jsm
 # toolkit/modules/subprocess/subprocess_win.jsm
 # toolkit/modules/third_party/fathom/fathom.jsm
 # toolkit/modules/third_party/jsesc/jsesc.jsm
-# toolkit/modules/AppConstants.jsm
-# toolkit/components/utils/mozjexl.jsm
 
 FILES=$(cat<<EOF
 accessible/tests/browser/Common.jsm

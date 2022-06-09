@@ -65,7 +65,6 @@ $ ./mach eslint --fix path/to/file.sys.mjs
 
 ## TODO
 
- * `components.conf`
  * `ChromeUtils.registerWindowActor`
  * `ChromeUtils.registerProcessActor`
  * `Cu.isModuleLoaded`

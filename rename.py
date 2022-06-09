@@ -38,6 +38,30 @@ def try_rename_in(path, target, jsm_name, esm_name):
     return True
 
 
+def try_rename_components_conf(path, jsm_name, esm_name):
+    target_path = find_file(path, 'components.conf')
+    if not target_path:
+        return False
+
+    with open(target_path, 'r') as f:
+        content = f.read()
+
+    prop_re = re.compile('["\']jsm["\']:(.*)'
+                         + r'\b' + jsm_name.replace('.', r'\.') + r'\b')
+
+    if not prop_re.search(content):
+        return False
+
+    print(str(target_path))
+    print(' ', path, '=>', esm_name)
+
+    content = prop_re.sub("'esm':\\1" + esm_name, content)
+    with open(target_path, 'w') as f:
+        f.write(content)
+
+    return True
+
+
 def rename(file):
     path = pathlib.Path(file)
 
@@ -61,6 +85,9 @@ def rename(file):
     for target in target_files:
         if try_rename_in(path, target, jsm_name, esm_name):
             renamed = True
+
+    if try_rename_components_conf(path, jsm_name, esm_name):
+        renamed = True
 
     if not renamed:
         return

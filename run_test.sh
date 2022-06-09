@@ -48,7 +48,7 @@ do_test() {
 
     maybe_skip ${INPUT} || return
 
-    ANS=$(echo ${INPUT} | sed -e 's/\.js$/\.ans.js/')
+    ANS=$(echo ${INPUT} | sed -e 's/\./.ans./')
     TMPFILE=${OUTPUT_DIR}/$(basename ${INPUT})
     cp ${INPUT} ${TMPFILE}
 
@@ -56,7 +56,7 @@ do_test() {
     ${JSCODESHIFT} -s -t ${RULE} ${TMPFILE}
     { set +x; } 2> /dev/null
 
-    diff -u ${ANS} ${TMPFILE}
+    diff -u ${TMPFILE} ${ANS}
     RESULT=$?
 
     if [ ${RESULT} -eq 0 ]; then
@@ -152,30 +152,34 @@ RULE=import-to-import_esm.js
 
 # basic import
 
-do_test ${RULE} tests/import_top_level.js
-do_test ${RULE} tests/import_block.js
+do_test ${RULE} tests/import_top_level.sys.mjs
+do_test ${RULE} tests/import_block.sys.mjs
 
-do_test ${RULE} tests/import_cu_top_level.js
-do_test ${RULE} tests/import_cu_block.js
+do_test ${RULE} tests/import_cu_top_level.sys.mjs
+do_test ${RULE} tests/import_cu_block.sys.mjs
+
+# basic import in non ESM
+
+do_test ${RULE} tests/import_top_level_non_esm.js
 
 # import namespace object
 
-do_test ${RULE} tests/import_ns_top_level.js
-do_test ${RULE} tests/import_ns_block.js
+do_test ${RULE} tests/import_ns_top_level.sys.mjs
+do_test ${RULE} tests/import_ns_block.sys.mjs
 
 # import with alias
 
-do_test ${RULE} tests/import_alias_top_level.js
-do_test ${RULE} tests/import_alias_block.js
+do_test ${RULE} tests/import_alias_top_level.sys.mjs
+do_test ${RULE} tests/import_alias_block.sys.mjs
 
 # lazy getter
 
-do_test ${RULE} tests/import_lazy.js
-do_test ${RULE} tests/import_lazy_xpcom.js
+do_test ${RULE} tests/import_lazy.sys.mjs
+do_test ${RULE} tests/import_lazy_xpcom.sys.mjs
 
 # lazy getters
 
-do_test ${RULE} tests/import_lazy_multi.js
+do_test ${RULE} tests/import_lazy_multi.sys.mjs
 
 # ---- summary ----
 

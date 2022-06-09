@@ -75,7 +75,12 @@ function isString(node) {
   return node.type === "Literal" && typeof node.value === "string";
 }
 
-function tryReplacingWithStatciImport(jscodeshift, path, resourceURINode) {
+function tryReplacingWithStatciImport(jscodeshift, inputFile, path, resourceURINode) {
+  if (!inputFile.endsWith(".sys.mjs")) {
+    // Static import is available only in system ESM.
+    return false;
+  }
+
   if (path.parent.node.type !== "VariableDeclarator") {
     return false;
   }
@@ -149,7 +154,7 @@ function doTranslate(inputFile, jscodeshift, root) {
         return;
       }
 
-      if (!tryReplacingWithStatciImport(jscodeshift, path, resourceURINode)) {
+      if (!tryReplacingWithStatciImport(jscodeshift, inputFile, path, resourceURINode)) {
         path.node.callee.object.name = "ChromeUtils";
         path.node.callee.property.name = "importESM";
         resourceURINode.value = esmifiy(resourceURINode.value);

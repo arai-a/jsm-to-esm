@@ -1,10 +1,14 @@
-const fs = require("fs");
 const path = require("path");
-const { isESMified } = require(path.resolve(__dirname, "./is-esmified.js"));
+let { isESMified } = require(path.resolve(__dirname, "./is-esmified.js"));
 
 /* global module */
 
 module.exports = function(fileInfo, api) {
+  // Special mode for testing.
+  if (fileInfo.path.startsWith('./tests/output/')) {
+    isESMified = () => true;
+  }
+
   const { jscodeshift } = api;
   const root = jscodeshift(fileInfo.source);
   doTranslate(fileInfo.path, jscodeshift, root);
@@ -71,6 +75,56 @@ function isString(node) {
   return node.type === "Literal" && typeof node.value === "string";
 }
 
+function tryReplacingWithStatciImport(jscodeshift, path, resourceURINode) {
+  if (path.parent.node.type !== "VariableDeclarator") {
+    return false;
+  }
+
+  if (path.parent.parent.node.type !== "VariableDeclaration") {
+    return false;
+  }
+
+  const decls = path.parent.parent.node;
+  if (decls.declarations.length !== 1) {
+    return false;
+  }
+
+  if (path.parent.parent.parent.node.type !== "Program") {
+    return false;
+  }
+
+  if (path.node.arguments.length !== 1) {
+    return false;
+  }
+
+  const resourceURI = resourceURINode.value;
+
+  const specs = [];
+
+  if (path.parent.node.id.type === "Identifier") {
+    specs.push(jscodeshift.importNamespaceSpecifier(path.parent.node.id));
+  } else if (path.parent.node.id.type === "ObjectPattern") {
+    for (const prop of path.parent.node.id.properties) {
+      if (prop.shorthand) {
+        specs.push(jscodeshift.importSpecifier(prop.key));
+      } else if (prop.value.type === "Identifier") {
+        specs.push(jscodeshift.importSpecifier(prop.key, prop.value));
+      } else {
+        return false;
+      }
+    }
+  } else {
+    return false;
+  }
+
+  const e = jscodeshift.importDeclaration(specs, resourceURINode);
+  e.comments = path.parent.parent.node.comments;
+  path.parent.parent.node.comments = [];
+  path.parent.parent.replace(e);
+
+  return true;
+}
+
 function doTranslate(inputFile, jscodeshift, root) {
   root.find(jscodeshift.CallExpression).forEach(path => {
     if (isImportCall(path.node)) {
@@ -79,14 +133,14 @@ function doTranslate(inputFile, jscodeshift, root) {
         return;
       }
 
-      const resourceNode = path.node.arguments[0];
-      if (!isString(resourceNode)) {
+      const resourceURINode = path.node.arguments[0];
+      if (!isString(resourceURINode)) {
         warnForPath(inputFile, path, `resource URI should be a string`);
         return;
       }
 
-      const resourceURI = resourceNode.value;
-      if (!resourceNode.value.endsWith(".jsm")) {
+      const resourceURI = resourceURINode.value;
+      if (!resourceURINode.value.endsWith(".jsm")) {
         warnForPath(inputFile, path, `Non-jsm: ${resourceURI}`);
         return;
       }
@@ -95,9 +149,11 @@ function doTranslate(inputFile, jscodeshift, root) {
         return;
       }
 
-      path.node.callee.object.name = "ChromeUtils";
-      path.node.callee.property.name = "importESM";
-      resourceNode.value = esmifiy(resourceNode.value);
+      if (!tryReplacingWithStatciImport(jscodeshift, path, resourceURINode)) {
+        path.node.callee.object.name = "ChromeUtils";
+        path.node.callee.property.name = "importESM";
+        resourceURINode.value = esmifiy(resourceURINode.value);
+      }
     } else if (isLazyGetterCall(path.node)) {
       if (path.node.arguments.length !== 3) {
         warnForPath(inputFile, path, `lazy getter call should have 3 arguments`);
@@ -110,14 +166,14 @@ function doTranslate(inputFile, jscodeshift, root) {
         return;
       }
 
-      const resourceNode = path.node.arguments[2];
-      if (!isString(resourceNode)) {
+      const resourceURINode = path.node.arguments[2];
+      if (!isString(resourceURINode)) {
         warnForPath(inputFile, path, `resource URI should be a string`);
         return;
       }
 
-      const resourceURI = resourceNode.value;
-      if (!resourceNode.value.endsWith(".jsm")) {
+      const resourceURI = resourceURINode.value;
+      if (!resourceURINode.value.endsWith(".jsm")) {
         warnForPath(inputFile, path, `Non-jsm: ${resourceURI}`);
         return;
       }
@@ -130,11 +186,11 @@ function doTranslate(inputFile, jscodeshift, root) {
 
       path.node.callee.object.name = "ChromeUtils";
       path.node.callee.property.name = "defineESMGetters";
-      resourceNode.value = esmifiy(resourceNode.value);
+      resourceURINode.value = esmifiy(resourceURINode.value);
       path.node.arguments = [
         path.node.arguments[0],
         jscodeshift.objectExpression([
-          jscodeshift.property("init", nameNode, resourceNode),
+          jscodeshift.property("init", nameNode, resourceURINode),
         ]),
       ];
     } else if (isLazyGettersCall(path.node)) {
@@ -153,15 +209,15 @@ function doTranslate(inputFile, jscodeshift, root) {
       const jsmProps = [];
 
       for (const prop of modulesNode.properties) {
-        const resourceNode = prop.value;
-        if (!isString(resourceNode)) {
+        const resourceURINode = prop.value;
+        if (!isString(resourceURINode)) {
           warnForPath(inputFile, path, `resource URI should be a string`);
           jsmProps.push(prop);
           continue;
         }
 
-        const resourceURI = resourceNode.value;
-        if (!resourceNode.value.endsWith(".jsm")) {
+        const resourceURI = resourceURINode.value;
+        if (!resourceURINode.value.endsWith(".jsm")) {
           warnForPath(inputFile, path, `Non-jsm: ${resourceURI}`);
           jsmProps.push(prop);
           continue;
@@ -183,8 +239,8 @@ function doTranslate(inputFile, jscodeshift, root) {
         path.node.callee.object.name = "ChromeUtils";
         path.node.callee.property.name = "defineESMGetters";
         for (const prop of esmProps) {
-          const resourceNode = prop.value;
-          resourceNode.value = esmifiy(resourceNode.value);
+          const resourceURINode = prop.value;
+          resourceURINode.value = esmifiy(resourceURINode.value);
         }
       } else {
         if (path.parent.node.type !== "ExpressionStatement") {
@@ -193,8 +249,8 @@ function doTranslate(inputFile, jscodeshift, root) {
         }
 
         for (const prop of esmProps) {
-          const resourceNode = prop.value;
-          resourceNode.value = esmifiy(resourceNode.value);
+          const resourceURINode = prop.value;
+          resourceURINode.value = esmifiy(resourceURINode.value);
         }
 
         const callStmt = jscodeshift.expressionStatement(

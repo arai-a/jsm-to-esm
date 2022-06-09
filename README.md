@@ -53,23 +53,12 @@ $ ./mach eslint --fix path/to/file.sys.mjs
 For each `ChromeUtils.import` or related APIs, convert it to ESM-variant if
 the imported module is already ESM-ified.
 
+`ChromeUtils.import` at the top-level is converted to static import declaration.
+
 ```
 $ cd path/to/mozilla-unified
 $ path/to/jsm-to-esm/node_modules/.bin/jscodeshift \
     -t path/to/jsm-to-esm/import-to-import_esm.js \
-    path/to/file.sys.mjs
-$ ./mach eslint --fix path/to/file.sys.mjs
-```
-
-## Convert top-level `ChromeUtils.importESM` to `import` declaration
-
-Convert top-level `ChromeUtils.importESM` call in variable declaration into
-`import` declaration.
-
-```
-$ cd path/to/mozilla-unified
-$ path/to/jsm-to-esm/node_modules/.bin/jscodeshift \
-    -t path/to/jsm-to-esm/import_esm-to-import-declarations.js \
     path/to/file.sys.mjs
 $ ./mach eslint --fix path/to/file.sys.mjs
 ```

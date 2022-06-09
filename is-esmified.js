@@ -1,3 +1,5 @@
+const fs = require("fs");
+
 /* global exports */
 
 // A map from chrome or resource URI to real file.

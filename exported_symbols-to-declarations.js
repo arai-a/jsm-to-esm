@@ -49,7 +49,7 @@ function collectAndRemoveExportedSymbols(root) {
     }
     var name = elem.value;
     if (typeof name !== "string") {
-      throw Error(`EXPORTED_SYMBOLS is not statically known`);
+      throw Error(`EXPORTED_SYMBOLS item must be a string`);
     }
     EXPORTED_SYMBOLS.add(name);
   }
@@ -142,6 +142,6 @@ function doTranslate(jscodeshift, root) {
   });
 
   if (EXPORTED_SYMBOLS.size !== 0) {
-    throw Error(`exported symbols ${[...EXPORTED_SYMBOLS].join(",")} not found`);
+    throw Error(`exported symbols ${[...EXPORTED_SYMBOLS].join(", ")} not found`);
   }
 }

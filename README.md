@@ -26,6 +26,7 @@ If no reference is found, this script doesn't rename the file.
  * `xpcshell-child-process.ini`
  * `xpcshell-common.ini`
  * `xpcshell-parent-process.ini`
+ * `components.conf` (including replacing property name "jsm" to "esm")
 
 NOTE: This does not guarantee all references in build files are rewritten.
 Especially if the file is referred from other subdirectory.

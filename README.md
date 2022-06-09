@@ -62,3 +62,10 @@ $ path/to/jsm-to-esm/node_modules/.bin/jscodeshift \
     path/to/file.sys.mjs
 $ ./mach eslint --fix path/to/file.sys.mjs
 ```
+
+## TODO
+
+ * `components.conf`
+ * `ChromeUtils.registerWindowActor`
+ * `ChromeUtils.registerProcessActor`
+ * `Cu.isModuleLoaded`

@@ -11,7 +11,7 @@ $ npm install jscodeshift
 
 ## Rename `*.jsm` to `*.sys.mjs`, including the references in build files
 
-Rename `*.jsm` file to `*.sys.mjs` file, at the same time rewriting references
+Rename `*.jsm` or `*.js` file to `*.sys.mjs` file, at the same time rewriting references
 or the file in build files in the file's and ancestor directories.
 
 If no reference is found, this script doesn't rename the file.

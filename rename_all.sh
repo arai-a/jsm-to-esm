@@ -2,13 +2,13 @@
 
 # These files are not yet ready for ESM-ification.
 #
-# devtools/shared/loader/worker-loader.jsm
-# devtools/shared/worker/worker.jsm
+# devtools/shared/loader/worker-loader.js
+# devtools/shared/worker/worker.js
 # mobile/android/modules/geckoview/AndroidLog.jsm
-# services/fxaccounts/FxAccountsCommon.jsm
-# services/sync/modules/constants.jsm
-# toolkit/components/lz4/lz4.jsm
-# toolkit/components/lz4/lz4_internal.jsm
+# services/fxaccounts/FxAccountsCommon.js
+# services/sync/modules/constants.js
+# toolkit/components/lz4/lz4.js
+# toolkit/components/lz4/lz4_internal.js
 # toolkit/components/osfile/modules/osfile_shared_allthreads.jsm
 # toolkit/components/osfile/modules/osfile_unix_allthreads.jsm
 # toolkit/components/osfile/modules/osfile_win_allthreads.jsm
@@ -24,6 +24,7 @@
 # browser/components/urlbar/UrlbarPrefs.jsm
 # devtools/client/performance-new/popup/background.jsm.js
 # devtools/shared/loader/Loader.jsm
+# dom/media/webvtt/update-webvtt.js
 # dom/media/webvtt/vtt.jsm
 # dom/push/PushService.jsm
 # intl/l10n/FluentSyntax.jsm
@@ -35,21 +36,50 @@
 # python/mozbuild/mozbuild/test/backend/data/build/baz.jsm
 # python/mozbuild/mozbuild/test/backend/data/build/foo.jsm
 # python/mozbuild/mozbuild/test/backend/data/build/qux.jsm
-# remote/marionette/atom.jsm
-# services/common/kinto-http-client.jsm
-# services/common/kinto-offline-client.jsm
+# remote/marionette/atom.js
+# remote/shared/messagehandler/test/browser/resources/modules/root/invalid.jsm
+# services/common/kinto-http-client.js
+# services/common/kinto-offline-client.js
+# services/sync/tps/extensions/tps/resource/tps.jsm
 # toolkit/components/bitsdownload/Bits.jsm
 # toolkit/components/ctypes/ctypes.jsm
 # toolkit/components/extensions/Extension.jsm
+# toolkit/components/normandy/vendor/PropTypes.js
+# toolkit/components/normandy/vendor/React.js
+# toolkit/components/normandy/vendor/ReactDOM.js
+# toolkit/components/normandy/vendor/classnames.js
 # toolkit/components/passwordmgr/PasswordRulesParser.jsm
 # toolkit/components/reader/Readerable.jsm
-# toolkit/components/utils/mozjexl.jsm
+# toolkit/components/utils/mozjexl.js
 # toolkit/modules/AppConstants.jsm
 # toolkit/modules/subprocess/subprocess_common.jsm
 # toolkit/modules/subprocess/subprocess_unix.jsm
 # toolkit/modules/subprocess/subprocess_win.jsm
 # toolkit/modules/third_party/fathom/fathom.jsm
-# toolkit/modules/third_party/jsesc/jsesc.jsm
+# toolkit/modules/third_party/jsesc/jsesc.js
+
+# These files shouldn't be renamed
+#
+# docshell/test/browser/Bug1622420Child.jsm
+# docshell/test/browser/Bug422543Child.jsm
+# docshell/test/chrome/DocShellHelpers.jsm
+# docshell/test/unit/AllowJavascriptChild.jsm
+# docshell/test/unit/AllowJavascriptParent.jsm
+# js/xpconnect/tests/chrome/file_expandosharing.jsm
+# js/xpconnect/tests/unit/environment_checkscript.jsm
+# js/xpconnect/tests/unit/environment_loadscript.jsm
+# js/xpconnect/tests/unit/environment_script.js
+# js/xpconnect/tests/unit/jsm_loaded-1.jsm
+# js/xpconnect/tests/unit/jsm_loaded-2.jsm
+# js/xpconnect/tests/unit/jsm_loaded-3.jsm
+# js/xpconnect/tests/unit/not-esmified-not-exported.jsm
+# js/xpconnect/tests/unit/recursive_importA.jsm
+# js/xpconnect/tests/unit/recursive_importB.jsm
+# js/xpconnect/tests/unit/uninitialized_lexical.jsm
+# toolkit/actors/TestProcessActorChild.jsm
+# toolkit/actors/TestProcessActorParent.jsm
+# toolkit/actors/TestWindowChild.jsm
+# toolkit/actors/TestWindowParent.jsm
 
 FILES=$(cat<<EOF
 accessible/tests/browser/Common.jsm
@@ -129,7 +159,6 @@ browser/components/customizableui/DragPositionManager.jsm
 browser/components/customizableui/PanelMultiView.jsm
 browser/components/customizableui/SearchWidgetTracker.jsm
 browser/components/customizableui/test/CustomizableUITestUtils.jsm
-browser/components/distribution.jsm
 browser/components/doh/DoHConfig.jsm
 browser/components/doh/DoHController.jsm
 browser/components/doh/DoHHeuristics.jsm
@@ -282,13 +311,6 @@ browser/components/shell/HeadlessShell.jsm
 browser/components/shell/ScreenshotChild.jsm
 browser/components/shell/ShellService.jsm
 browser/components/syncedtabs/EventEmitter.jsm
-browser/components/syncedtabs/SyncedTabsDeckComponent.jsm
-browser/components/syncedtabs/SyncedTabsDeckStore.jsm
-browser/components/syncedtabs/SyncedTabsDeckView.jsm
-browser/components/syncedtabs/SyncedTabsListStore.jsm
-browser/components/syncedtabs/TabListComponent.jsm
-browser/components/syncedtabs/TabListView.jsm
-browser/components/syncedtabs/util.jsm
 browser/components/translation/BingTranslator.jsm
 browser/components/translation/GoogleTranslator.jsm
 browser/components/translation/LanguageDetector.jsm
@@ -412,8 +434,6 @@ devtools/server/connectors/js-window-actor/WindowGlobalLogger.jsm
 devtools/server/startup/content-process.jsm
 devtools/shared/heapsnapshot/tests/xpcshell/Census.jsm
 devtools/shared/heapsnapshot/tests/xpcshell/Match.jsm
-devtools/shared/loader/base-loader.jsm
-devtools/shared/loader/browser-loader.jsm
 devtools/shared/loader/loader-plugin-raw.jsm
 devtools/shared/security/DevToolsSocketStatus.jsm
 devtools/shared/test-helpers/tracked-objects.jsm
@@ -423,11 +443,6 @@ devtools/startup/AboutDevToolsToolboxRegistration.jsm
 devtools/startup/DevToolsShim.jsm
 devtools/startup/DevToolsStartup.jsm
 docshell/base/URIFixup.jsm
-docshell/test/browser/Bug1622420Child.jsm
-docshell/test/browser/Bug422543Child.jsm
-docshell/test/chrome/DocShellHelpers.jsm
-docshell/test/unit/AllowJavascriptChild.jsm
-docshell/test/unit/AllowJavascriptParent.jsm
 dom/base/ContentAreaDropListener.jsm
 dom/base/DOMRequestHelper.jsm
 dom/base/IndexedDBHelper.jsm
@@ -487,13 +502,6 @@ intl/locale/tests/LangPackMatcherTestUtils.jsm
 js/ductwork/debugger/jsdebugger.jsm
 js/xpconnect/loader/ComponentUtils.jsm
 js/xpconnect/loader/XPCOMUtils.jsm
-js/xpconnect/tests/chrome/file_expandosharing.jsm
-js/xpconnect/tests/unit/environment_checkscript.jsm
-js/xpconnect/tests/unit/environment_loadscript.jsm
-js/xpconnect/tests/unit/not-esmified-not-exported.jsm
-js/xpconnect/tests/unit/recursive_importA.jsm
-js/xpconnect/tests/unit/recursive_importB.jsm
-js/xpconnect/tests/unit/uninitialized_lexical.jsm
 layout/tools/layout-debug/LayoutDebugChild.jsm
 layout/tools/reftest/ReftestFissionChild.jsm
 layout/tools/reftest/ReftestFissionParent.jsm
@@ -573,7 +581,6 @@ netwerk/cookie/CookieXPCShellUtils.jsm
 netwerk/dns/PublicSuffixList.jsm
 netwerk/protocol/http/WellKnownOpportunisticUtils.jsm
 netwerk/test/browser/early_hint_preload_test_helper.jsm
-netwerk/test/httpserver/httpd.jsm
 netwerk/url-classifier/UrlClassifierExceptionListService.jsm
 remote/cdp/CDP.jsm
 remote/cdp/CDPConnection.jsm
@@ -620,39 +627,12 @@ remote/cdp/targets/Target.jsm
 remote/cdp/targets/TargetList.jsm
 remote/components/Marionette.jsm
 remote/components/RemoteAgent.jsm
-remote/marionette/accessibility.jsm
-remote/marionette/action.jsm
 remote/marionette/actors/MarionetteCommandsChild.jsm
 remote/marionette/actors/MarionetteCommandsParent.jsm
 remote/marionette/actors/MarionetteEventsChild.jsm
 remote/marionette/actors/MarionetteEventsParent.jsm
 remote/marionette/actors/MarionetteReftestChild.jsm
 remote/marionette/actors/MarionetteReftestParent.jsm
-remote/marionette/addon.jsm
-remote/marionette/appinfo.jsm
-remote/marionette/browser.jsm
-remote/marionette/capture.jsm
-remote/marionette/cert.jsm
-remote/marionette/cookie.jsm
-remote/marionette/dom.jsm
-remote/marionette/driver.jsm
-remote/marionette/element.jsm
-remote/marionette/evaluate.jsm
-remote/marionette/event.jsm
-remote/marionette/interaction.jsm
-remote/marionette/l10n.jsm
-remote/marionette/legacyaction.jsm
-remote/marionette/message.jsm
-remote/marionette/modal.jsm
-remote/marionette/navigate.jsm
-remote/marionette/packets.jsm
-remote/marionette/permissions.jsm
-remote/marionette/prefs.jsm
-remote/marionette/reftest.jsm
-remote/marionette/server.jsm
-remote/marionette/stream-utils.jsm
-remote/marionette/sync.jsm
-remote/marionette/transport.jsm
 remote/server/WebSocketHandshake.jsm
 remote/server/WebSocketTransport.jsm
 remote/shared/Format.jsm
@@ -684,7 +664,6 @@ remote/shared/messagehandler/sessiondata/SessionDataReader.jsm
 remote/shared/messagehandler/test/browser/resources/modules/ModuleRegistry.jsm
 remote/shared/messagehandler/test/browser/resources/modules/root/command.jsm
 remote/shared/messagehandler/test/browser/resources/modules/root/event.jsm
-remote/shared/messagehandler/test/browser/resources/modules/root/invalid.jsm
 remote/shared/messagehandler/test/browser/resources/modules/root/rootOnly.jsm
 remote/shared/messagehandler/test/browser/resources/modules/windowglobal-in-root/command.jsm
 remote/shared/messagehandler/test/browser/resources/modules/windowglobal-in-root/event.jsm
@@ -718,29 +697,14 @@ security/manager/ssl/DER.jsm
 security/manager/ssl/RemoteSecuritySettings.jsm
 security/manager/ssl/X509.jsm
 services/automation/ServicesAutomation.jsm
-services/common/async.jsm
-services/common/hawkclient.jsm
-services/common/hawkrequest.jsm
-services/common/kinto-storage-adapter.jsm
-services/common/logmanager.jsm
-services/common/modules-testing/logging.jsm
-services/common/observers.jsm
-services/common/rest.jsm
-services/common/tokenserverclient.jsm
-services/common/uptake-telemetry.jsm
-services/common/utils.jsm
-services/crypto/modules/WeaveCrypto.jsm
 services/crypto/modules/jwcrypto.jsm
-services/crypto/modules/utils.jsm
 services/fxaccounts/Credentials.jsm
 services/fxaccounts/FxAccounts.jsm
 services/fxaccounts/FxAccountsClient.jsm
-services/fxaccounts/FxAccountsCommands.jsm
 services/fxaccounts/FxAccountsConfig.jsm
 services/fxaccounts/FxAccountsDevice.jsm
 services/fxaccounts/FxAccountsKeys.jsm
 services/fxaccounts/FxAccountsPairing.jsm
-services/fxaccounts/FxAccountsPairingChannel.jsm
 services/fxaccounts/FxAccountsProfile.jsm
 services/fxaccounts/FxAccountsProfileClient.jsm
 services/fxaccounts/FxAccountsPush.jsm
@@ -756,43 +720,10 @@ services/settings/RemoteSettingsWorker.jsm
 services/settings/SharedUtils.jsm
 services/settings/SyncHistory.jsm
 services/settings/Utils.jsm
-services/settings/remote-settings.jsm
 services/sync/Weave.jsm
-services/sync/modules-testing/fakeservices.jsm
-services/sync/modules-testing/fxa_utils.jsm
-services/sync/modules-testing/rotaryengine.jsm
-services/sync/modules-testing/utils.jsm
 services/sync/modules/SyncDisconnect.jsm
 services/sync/modules/SyncedTabs.jsm
 services/sync/modules/UIState.jsm
-services/sync/modules/addonsreconciler.jsm
-services/sync/modules/addonutils.jsm
-services/sync/modules/bookmark_validator.jsm
-services/sync/modules/bridged_engine.jsm
-services/sync/modules/collection_validator.jsm
-services/sync/modules/doctor.jsm
-services/sync/modules/engines.jsm
-services/sync/modules/engines/addons.jsm
-services/sync/modules/engines/bookmarks.jsm
-services/sync/modules/engines/clients.jsm
-services/sync/modules/engines/extension-storage.jsm
-services/sync/modules/engines/forms.jsm
-services/sync/modules/engines/history.jsm
-services/sync/modules/engines/passwords.jsm
-services/sync/modules/engines/prefs.jsm
-services/sync/modules/engines/tabs.jsm
-services/sync/modules/keys.jsm
-services/sync/modules/main.jsm
-services/sync/modules/policies.jsm
-services/sync/modules/record.jsm
-services/sync/modules/resource.jsm
-services/sync/modules/service.jsm
-services/sync/modules/stages/declined.jsm
-services/sync/modules/stages/enginesync.jsm
-services/sync/modules/status.jsm
-services/sync/modules/sync_auth.jsm
-services/sync/modules/telemetry.jsm
-services/sync/modules/util.jsm
 services/sync/tps/extensions/tps/resource/auth/fxaccounts.jsm
 services/sync/tps/extensions/tps/resource/logger.jsm
 services/sync/tps/extensions/tps/resource/modules/addons.jsm
@@ -804,8 +735,6 @@ services/sync/tps/extensions/tps/resource/modules/passwords.jsm
 services/sync/tps/extensions/tps/resource/modules/prefs.jsm
 services/sync/tps/extensions/tps/resource/modules/tabs.jsm
 services/sync/tps/extensions/tps/resource/modules/windows.jsm
-services/sync/tps/extensions/tps/resource/quit.jsm
-services/sync/tps/extensions/tps/resource/tps.jsm
 testing/mochitest/BrowserTestUtils/BrowserTestUtils.jsm
 testing/mochitest/BrowserTestUtils/BrowserTestUtilsChild.jsm
 testing/mochitest/BrowserTestUtils/BrowserTestUtilsParent.jsm
@@ -877,10 +806,6 @@ toolkit/actors/PurgeSessionHistoryChild.jsm
 toolkit/actors/RemotePageChild.jsm
 toolkit/actors/SelectChild.jsm
 toolkit/actors/SelectParent.jsm
-toolkit/actors/TestProcessActorChild.jsm
-toolkit/actors/TestProcessActorParent.jsm
-toolkit/actors/TestWindowChild.jsm
-toolkit/actors/TestWindowParent.jsm
 toolkit/actors/ThumbnailsChild.jsm
 toolkit/actors/UAWidgetsChild.jsm
 toolkit/actors/UnselectedTabHoverChild.jsm
@@ -922,10 +847,6 @@ toolkit/components/backgroundtasks/tests/BackgroundTask_wait.jsm
 toolkit/components/captivedetect/CaptiveDetect.jsm
 toolkit/components/certviewer/AboutCertViewerChild.jsm
 toolkit/components/certviewer/AboutCertViewerParent.jsm
-toolkit/components/certviewer/content/certDecoder.jsm
-toolkit/components/certviewer/content/vendor/asn1js_bundle.jsm
-toolkit/components/certviewer/content/vendor/pkijs_bundle.jsm
-toolkit/components/certviewer/content/vendor/pvutils_bundle.jsm
 toolkit/components/cleardata/ClearDataService.jsm
 toolkit/components/cleardata/PrincipalsCollector.jsm
 toolkit/components/cleardata/ServiceWorkerCleanUp.jsm
@@ -1055,7 +976,6 @@ toolkit/components/normandy/actions/PreferenceExperimentAction.jsm
 toolkit/components/normandy/actions/PreferenceRollbackAction.jsm
 toolkit/components/normandy/actions/PreferenceRolloutAction.jsm
 toolkit/components/normandy/actions/ShowHeartbeatAction.jsm
-toolkit/components/normandy/actions/schemas/index.jsm
 toolkit/components/normandy/content/AboutPages.jsm
 toolkit/components/normandy/content/ShieldFrameChild.jsm
 toolkit/components/normandy/content/ShieldFrameParent.jsm
@@ -1079,10 +999,6 @@ toolkit/components/normandy/lib/Storage.jsm
 toolkit/components/normandy/lib/TelemetryEvents.jsm
 toolkit/components/normandy/lib/Uptake.jsm
 toolkit/components/normandy/test/NormandyTestUtils.jsm
-toolkit/components/normandy/vendor/PropTypes.jsm
-toolkit/components/normandy/vendor/React.jsm
-toolkit/components/normandy/vendor/ReactDOM.jsm
-toolkit/components/normandy/vendor/classnames.jsm
 toolkit/components/osfile/modules/osfile_async_front.jsm
 toolkit/components/osfile/modules/osfile_native.jsm
 toolkit/components/passwordmgr/InsecurePasswordUtils.jsm
@@ -1106,9 +1022,6 @@ toolkit/components/passwordmgr/OSCrypto.jsm
 toolkit/components/passwordmgr/OSCrypto_win.jsm
 toolkit/components/passwordmgr/PasswordGenerator.jsm
 toolkit/components/passwordmgr/PasswordRulesManager.jsm
-toolkit/components/passwordmgr/crypto-SDR.jsm
-toolkit/components/passwordmgr/storage-geckoview.jsm
-toolkit/components/passwordmgr/storage-json.jsm
 toolkit/components/passwordmgr/test/LoginTestUtils.jsm
 toolkit/components/pdfjs/content/PdfJs.jsm
 toolkit/components/pdfjs/content/PdfJsDefaultPreferences.jsm
@@ -1118,8 +1031,6 @@ toolkit/components/pdfjs/content/PdfSandbox.jsm
 toolkit/components/pdfjs/content/PdfStreamConverter.jsm
 toolkit/components/pdfjs/content/PdfjsChild.jsm
 toolkit/components/pdfjs/content/PdfjsParent.jsm
-toolkit/components/pdfjs/content/build/pdf.sandbox.external.jsm
-toolkit/components/pdfjs/pdfjs.jsm
 toolkit/components/pictureinpicture/PictureInPicture.jsm
 toolkit/components/pictureinpicture/PictureInPictureControls.jsm
 toolkit/components/places/BookmarkHTMLUtils.jsm
@@ -1221,7 +1132,6 @@ toolkit/components/utils/FilterExpressions.jsm
 toolkit/components/utils/JsonSchemaValidator.jsm
 toolkit/components/utils/PreferenceFilters.jsm
 toolkit/components/utils/Sampling.jsm
-toolkit/components/utils/SimpleServices.jsm
 toolkit/components/utils/WindowsInstallsInfo.jsm
 toolkit/components/utils/WindowsVersionInfo.jsm
 toolkit/components/xulstore/new/XULStore.jsm
@@ -1318,7 +1228,6 @@ toolkit/mozapps/extensions/AbuseReporter.jsm
 toolkit/mozapps/extensions/AddonManager.jsm
 toolkit/mozapps/extensions/Blocklist.jsm
 toolkit/mozapps/extensions/LightweightThemeManager.jsm
-toolkit/mozapps/extensions/addonManagerComponent.jsm
 toolkit/mozapps/extensions/amContentHandler.jsm
 toolkit/mozapps/extensions/amInstallTrigger.jsm
 toolkit/mozapps/extensions/amWebAPI.jsm
@@ -1342,6 +1251,110 @@ tools/code-coverage/PerTestCoverageUtils.jsm
 uriloader/exthandler/HandlerList.jsm
 uriloader/exthandler/WebHandlerApp.jsm
 uriloader/exthandler/tests/HandlerServiceTestUtils.jsm
+browser/components/distribution.js
+browser/components/syncedtabs/SyncedTabsDeckComponent.js
+browser/components/syncedtabs/SyncedTabsDeckStore.js
+browser/components/syncedtabs/SyncedTabsDeckView.js
+browser/components/syncedtabs/SyncedTabsListStore.js
+browser/components/syncedtabs/TabListComponent.js
+browser/components/syncedtabs/TabListView.js
+browser/components/syncedtabs/util.js
+devtools/client/performance-new/popup/menu-button.jsm.js
+devtools/client/performance-new/popup/panel.jsm.js
+devtools/client/performance-new/symbolication.jsm.js
+devtools/client/performance-new/typescript-lazy-load.jsm.js
+devtools/shared/loader/base-loader.js
+devtools/shared/loader/browser-loader.js
+netwerk/test/httpserver/httpd.js
+remote/marionette/accessibility.js
+remote/marionette/action.js
+remote/marionette/addon.js
+remote/marionette/appinfo.js
+remote/marionette/browser.js
+remote/marionette/capture.js
+remote/marionette/cert.js
+remote/marionette/cookie.js
+remote/marionette/dom.js
+remote/marionette/driver.js
+remote/marionette/element.js
+remote/marionette/evaluate.js
+remote/marionette/event.js
+remote/marionette/interaction.js
+remote/marionette/l10n.js
+remote/marionette/legacyaction.js
+remote/marionette/message.js
+remote/marionette/modal.js
+remote/marionette/navigate.js
+remote/marionette/packets.js
+remote/marionette/permissions.js
+remote/marionette/prefs.js
+remote/marionette/reftest.js
+remote/marionette/server.js
+remote/marionette/stream-utils.js
+remote/marionette/sync.js
+remote/marionette/transport.js
+services/common/async.js
+services/common/hawkclient.js
+services/common/hawkrequest.js
+services/common/kinto-storage-adapter.js
+services/common/logmanager.js
+services/common/modules-testing/logging.js
+services/common/observers.js
+services/common/rest.js
+services/common/tokenserverclient.js
+services/common/uptake-telemetry.js
+services/common/utils.js
+services/crypto/modules/WeaveCrypto.js
+services/crypto/modules/utils.js
+services/fxaccounts/FxAccountsCommands.js
+services/fxaccounts/FxAccountsPairingChannel.js
+services/settings/remote-settings.js
+services/sync/modules-testing/fakeservices.js
+services/sync/modules-testing/fxa_utils.js
+services/sync/modules-testing/rotaryengine.js
+services/sync/modules-testing/utils.js
+services/sync/modules/addonsreconciler.js
+services/sync/modules/addonutils.js
+services/sync/modules/bookmark_validator.js
+services/sync/modules/bridged_engine.js
+services/sync/modules/collection_validator.js
+services/sync/modules/doctor.js
+services/sync/modules/engines.js
+services/sync/modules/engines/addons.js
+services/sync/modules/engines/bookmarks.js
+services/sync/modules/engines/clients.js
+services/sync/modules/engines/extension-storage.js
+services/sync/modules/engines/forms.js
+services/sync/modules/engines/history.js
+services/sync/modules/engines/passwords.js
+services/sync/modules/engines/prefs.js
+services/sync/modules/engines/tabs.js
+services/sync/modules/keys.js
+services/sync/modules/main.js
+services/sync/modules/policies.js
+services/sync/modules/record.js
+services/sync/modules/resource.js
+services/sync/modules/service.js
+services/sync/modules/stages/declined.js
+services/sync/modules/stages/enginesync.js
+services/sync/modules/status.js
+services/sync/modules/sync_auth.js
+services/sync/modules/telemetry.js
+services/sync/modules/util.js
+services/sync/tps/extensions/tps/resource/quit.js
+toolkit/components/certviewer/content/certDecoder.js
+toolkit/components/certviewer/content/vendor/asn1js_bundle.js
+toolkit/components/certviewer/content/vendor/pkijs_bundle.js
+toolkit/components/certviewer/content/vendor/pvutils_bundle.js
+toolkit/components/lz4/lz4.js
+toolkit/components/lz4/lz4_internal.js
+toolkit/components/normandy/actions/schemas/index.js
+toolkit/components/passwordmgr/crypto-SDR.js
+toolkit/components/passwordmgr/storage-geckoview.js
+toolkit/components/passwordmgr/storage-json.js
+toolkit/components/pdfjs/content/build/pdf.sandbox.external.js
+toolkit/components/pdfjs/pdfjs.js
+toolkit/mozapps/extensions/addonManager.js
 EOF
 )
 
@@ -1351,13 +1364,18 @@ done
 
 ESMS=$(
 for FILE in ${FILES}; do
-    ESM=$(echo ${FILE} | sed -e "s/.jsm/.sys.mjs/")
+    ESM=$(echo ${FILE} | sed -e "s/\.(jsm|js|jsm\.js)$/.sys.mjs/")
     if ! [ -f ${ESM} ]; then
         continue
     fi
     echo ${ESM}
 done
 )
+
+if [ "x${ESMS}" = "x" ]; then
+   echo "No modules are converted"
+   exit
+fi
 
 ../jsm-to-esm/node_modules/.bin/jscodeshift \
     -t ../jsm-to-esm/exported_symbols-to-declarations.js ${ESMS}

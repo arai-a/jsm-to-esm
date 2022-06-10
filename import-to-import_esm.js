@@ -68,7 +68,7 @@ function warnForPath(inputFile, path, message) {
 }
 
 function esmifiy(s) {
-  return s.replace(/\.jsm$/, ".sys.mjs");
+  return s.replace(/\.(jsm|js|jsm\.js)$/, ".sys.mjs");
 }
 
 function isString(node) {
@@ -145,7 +145,7 @@ function doTranslate(inputFile, jscodeshift, root) {
       }
 
       const resourceURI = resourceURINode.value;
-      if (!resourceURINode.value.endsWith(".jsm")) {
+      if (!resourceURINode.value.match(/\.(jsm|js|jsm\.js)$/)) {
         warnForPath(inputFile, path, `Non-jsm: ${resourceURI}`);
         return;
       }
@@ -178,8 +178,8 @@ function doTranslate(inputFile, jscodeshift, root) {
       }
 
       const resourceURI = resourceURINode.value;
-      if (!resourceURINode.value.endsWith(".jsm")) {
-        warnForPath(inputFile, path, `Non-jsm: ${resourceURI}`);
+      if (!resourceURINode.value.match(/\.(jsm|js|jsm\.js)$/)) {
+        warnForPath(inputFile, path, `Non-js/jsm: ${resourceURI}`);
         return;
       }
 
@@ -222,8 +222,8 @@ function doTranslate(inputFile, jscodeshift, root) {
         }
 
         const resourceURI = resourceURINode.value;
-        if (!resourceURINode.value.endsWith(".jsm")) {
-          warnForPath(inputFile, path, `Non-jsm: ${resourceURI}`);
+        if (!resourceURINode.value.match(/\.(jsm|js|jsm\.js)$/)) {
+          warnForPath(inputFile, path, `Non-js/jsm: ${resourceURI}`);
           jsmProps.push(prop);
           continue;
         }

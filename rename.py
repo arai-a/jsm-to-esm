@@ -66,7 +66,7 @@ def rename(file):
     path = pathlib.Path(file)
 
     jsm_name = path.name
-    esm_name = jsm_name.replace('.jsm', '.sys.mjs')
+    esm_name = re.sub(r'\.(jsm|js|jsm\.js)$', '.sys.mjs', jsm_name)
 
     target_files = [
         'moz.build',

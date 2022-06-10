@@ -1364,7 +1364,10 @@ done
 
 ESMS=$(
 for FILE in ${FILES}; do
-    ESM=$(echo ${FILE} | sed -e "s/\.(jsm|js|jsm\.js)$/.sys.mjs/")
+    ESM=$(echo ${FILE} \
+              | sed -e "s/\.jsm$/.sys.mjs/" \
+              | sed -e "s/\.jsm.js$/.sys.mjs/" \
+              | sed -e "s/\.js$/.sys.mjs/")
     if ! [ -f ${ESM} ]; then
         continue
     fi

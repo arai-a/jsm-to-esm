@@ -122,6 +122,8 @@ function tryReplacingWithStatciImport(jscodeshift, inputFile, path, resourceURIN
     return false;
   }
 
+  resourceURINode.value = esmifiy(resourceURINode.value);
+
   const e = jscodeshift.importDeclaration(specs, resourceURINode);
   e.comments = path.parent.parent.node.comments;
   path.parent.parent.node.comments = [];

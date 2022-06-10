@@ -1302,6 +1302,10 @@ const uri_map = {
   "resource://services-common/utils.js": "services/common/utils.js",
   "resource://services-crypto/utils.js": "services/crypto/modules/utils.js",
   "resource://testing-common/services/sync/utils.js": "services/sync/modules-testing/utils.jsm",
+
+  "resource://devtools/client/performance-new/popup/menu-button.jsm.js": "devtools/client/performance-new/popup/menu-button.jsm.js",
+  "resource:///modules/distribution.js": "browser/components/distribution.js",
+  "resource://devtools/client/performance-new/popup/background.jsm.js": "devtools/client/performance-new/popup/background.jsm.js",
 };
 
 function esmifiy(s) {

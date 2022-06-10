@@ -16,6 +16,61 @@
 # toolkit/components/osfile/modules/ospath_unix.jsm
 # toolkit/components/osfile/modules/ospath_win.jsm
 # toolkit/components/osfile/osfile.jsm
+# browser/components/customizableui/CustomizableUI.jsm
+# browser/components/customizableui/CustomizableWidgets.jsm
+# browser/components/customizableui/CustomizeMode.jsm
+# browser/components/customizableui/DragPositionManager.jsm
+# browser/components/customizableui/PanelMultiView.jsm
+# browser/components/customizableui/SearchWidgetTracker.jsm
+# browser/components/customizableui/test/CustomizableUITestUtils.jsm
+# browser/components/urlbar/UrlbarController.jsm
+# browser/components/urlbar/UrlbarEventBufferer.jsm
+# browser/components/urlbar/UrlbarInput.jsm
+# browser/components/urlbar/UrlbarMuxerUnifiedComplete.jsm
+# browser/components/urlbar/UrlbarProviderAboutPages.jsm
+# browser/components/urlbar/UrlbarProviderAliasEngines.jsm
+# browser/components/urlbar/UrlbarProviderAutofill.jsm
+# browser/components/urlbar/UrlbarProviderBookmarkKeywords.jsm
+# browser/components/urlbar/UrlbarProviderCalculator.jsm
+# browser/components/urlbar/UrlbarProviderExtension.jsm
+# browser/components/urlbar/UrlbarProviderHeuristicFallback.jsm
+# browser/components/urlbar/UrlbarProviderInputHistory.jsm
+# browser/components/urlbar/UrlbarProviderInterventions.jsm
+# browser/components/urlbar/UrlbarProviderOmnibox.jsm
+# browser/components/urlbar/UrlbarProviderOpenTabs.jsm
+# browser/components/urlbar/UrlbarProviderPlaces.jsm
+# browser/components/urlbar/UrlbarProviderPreloadedSites.jsm
+# browser/components/urlbar/UrlbarProviderPrivateSearch.jsm
+# browser/components/urlbar/UrlbarProviderQuickSuggest.jsm
+# browser/components/urlbar/UrlbarProviderRemoteTabs.jsm
+# browser/components/urlbar/UrlbarProviderSearchSuggestions.jsm
+# browser/components/urlbar/UrlbarProviderSearchTips.jsm
+# browser/components/urlbar/UrlbarProviderTabToSearch.jsm
+# browser/components/urlbar/UrlbarProviderTokenAliasEngines.jsm
+# browser/components/urlbar/UrlbarProviderTopSites.jsm
+# browser/components/urlbar/UrlbarProviderUnitConversion.jsm
+# browser/components/urlbar/UrlbarProvidersManager.jsm
+# browser/components/urlbar/UrlbarQuickSuggest.jsm
+# browser/components/urlbar/UrlbarResult.jsm
+# browser/components/urlbar/UrlbarSearchOneOffs.jsm
+# browser/components/urlbar/UrlbarSearchUtils.jsm
+# browser/components/urlbar/UrlbarTokenizer.jsm
+# browser/components/urlbar/UrlbarUtils.jsm
+# browser/components/urlbar/UrlbarValueFormatter.jsm
+# browser/components/urlbar/UrlbarView.jsm
+# browser/components/urlbar/tests/UrlbarTestUtils.jsm
+# browser/components/urlbar/tests/quicksuggest/QuickSuggestTestUtils.jsm
+# browser/components/urlbar/unitconverters/UnitConverterSimple.jsm
+# browser/components/urlbar/unitconverters/UnitConverterTemperature.jsm
+# browser/components/urlbar/unitconverters/UnitConverterTimezone.jsm
+# browser/extensions/report-site-issue/experimentalAPIs/actors/tabExtrasActor.jsm
+# toolkit/components/nimbus/ExperimentAPI.jsm
+# toolkit/components/nimbus/lib/ExperimentManager.jsm
+# toolkit/components/nimbus/lib/ExperimentStore.jsm
+# toolkit/components/nimbus/lib/RemoteSettingsExperimentLoader.jsm
+# toolkit/components/nimbus/lib/SharedDataMap.jsm
+# toolkit/components/nimbus/test/NimbusTestUtils.jsm
+# @@
 
 # These files needs special handling.
 #
@@ -23,7 +78,13 @@
 # browser/components/newtab/vendor/Redux.jsm
 # browser/components/urlbar/UrlbarPrefs.jsm
 # devtools/client/performance-new/popup/background.jsm.js
+# devtools/client/performance-new/popup/menu-button.jsm.js
+# devtools/client/performance-new/popup/panel.jsm.js
+# devtools/client/performance-new/symbolication.jsm.js
+# devtools/client/performance-new/typescript-lazy-load.jsm.js
 # devtools/shared/loader/Loader.jsm
+# devtools/shared/loader/base-loader.js
+# devtools/shared/loader/browser-loader.js
 # dom/media/webvtt/update-webvtt.js
 # dom/media/webvtt/vtt.jsm
 # dom/push/PushService.jsm
@@ -32,6 +93,7 @@
 # js/xpconnect/tests/unit/bogus_exports_type.jsm
 # js/xpconnect/tests/unit/importer.jsm
 # js/xpconnect/tests/unit/syntax_error.jsm
+# netwerk/test/httpserver/httpd.js
 # python/mozbuild/mozbuild/test/backend/data/build/bar.jsm
 # python/mozbuild/mozbuild/test/backend/data/build/baz.jsm
 # python/mozbuild/mozbuild/test/backend/data/build/foo.jsm
@@ -44,6 +106,8 @@
 # toolkit/components/bitsdownload/Bits.jsm
 # toolkit/components/ctypes/ctypes.jsm
 # toolkit/components/extensions/Extension.jsm
+# toolkit/components/lz4/lz4.js
+# toolkit/components/lz4/lz4_internal.js
 # toolkit/components/normandy/vendor/PropTypes.js
 # toolkit/components/normandy/vendor/React.js
 # toolkit/components/normandy/vendor/ReactDOM.js
@@ -57,6 +121,77 @@
 # toolkit/modules/subprocess/subprocess_win.jsm
 # toolkit/modules/third_party/fathom/fathom.jsm
 # toolkit/modules/third_party/jsesc/jsesc.js
+# toolkit/mozapps/extensions/addonManager.js
+# editor/AsyncSpellCheckTestHelper.jsm
+# testing/modules/StructuredLog.jsm
+# tools/code-coverage/PerTestCoverageUtils.jsm
+# remote/cdp/CDP.jsm
+# remote/cdp/CDPConnection.jsm
+# remote/cdp/Error.jsm
+# remote/cdp/JSONHandler.jsm
+# remote/cdp/Protocol.jsm
+# remote/cdp/StreamRegistry.jsm
+# remote/cdp/domains/ContentProcessDomain.jsm
+# remote/cdp/domains/ContentProcessDomains.jsm
+# remote/cdp/domains/Domain.jsm
+# remote/cdp/domains/DomainCache.jsm
+# remote/cdp/domains/ParentProcessDomains.jsm
+# remote/cdp/domains/content/DOM.jsm
+# remote/cdp/domains/content/Emulation.jsm
+# remote/cdp/domains/content/Input.jsm
+# remote/cdp/domains/content/Log.jsm
+# remote/cdp/domains/content/Network.jsm
+# remote/cdp/domains/content/Page.jsm
+# remote/cdp/domains/content/Performance.jsm
+# remote/cdp/domains/content/Runtime.jsm
+# remote/cdp/domains/content/Security.jsm
+# remote/cdp/domains/content/runtime/ExecutionContext.jsm
+# remote/cdp/domains/parent/Browser.jsm
+# remote/cdp/domains/parent/Emulation.jsm
+# remote/cdp/domains/parent/Fetch.jsm
+# remote/cdp/domains/parent/IO.jsm
+# remote/cdp/domains/parent/Input.jsm
+# remote/cdp/domains/parent/Network.jsm
+# remote/cdp/domains/parent/Page.jsm
+# remote/cdp/domains/parent/Security.jsm
+# remote/cdp/domains/parent/Target.jsm
+# remote/cdp/domains/parent/page/DialogHandler.jsm
+# remote/cdp/observers/ChannelEventSink.jsm
+# remote/cdp/observers/ContextObserver.jsm
+# remote/cdp/observers/NetworkObserver.jsm
+# remote/cdp/observers/TargetObserver.jsm
+# remote/cdp/sessions/ContentProcessSession.jsm
+# remote/cdp/sessions/MainProcessSession.jsm
+# remote/cdp/sessions/Session.jsm
+# remote/cdp/sessions/TabSession.jsm
+# remote/cdp/targets/MainProcessTarget.jsm
+# remote/cdp/targets/TabTarget.jsm
+# remote/cdp/targets/Target.jsm
+# remote/cdp/targets/TargetList.jsm
+# remote/shared/webdriver/Assert.jsm
+# remote/shared/webdriver/Capabilities.jsm
+# remote/shared/webdriver/Errors.jsm
+# remote/shared/webdriver/KeyData.jsm
+# remote/shared/webdriver/Session.jsm
+# remote/webdriver-bidi/NewSessionHandler.jsm
+# remote/webdriver-bidi/RemoteValue.jsm
+# remote/webdriver-bidi/WebDriverBiDi.jsm
+# remote/webdriver-bidi/WebDriverBiDiConnection.jsm
+# remote/webdriver-bidi/modules/ModuleRegistry.jsm
+# remote/webdriver-bidi/modules/root/browsingContext.jsm
+# remote/webdriver-bidi/modules/root/log.jsm
+# remote/webdriver-bidi/modules/root/session.jsm
+# remote/webdriver-bidi/modules/windowglobal-in-root/log.jsm
+# remote/webdriver-bidi/modules/windowglobal/browsingContext.jsm
+# remote/webdriver-bidi/modules/windowglobal/log.jsm
+# testing/modules/Assert.jsm
+# remote/shared/messagehandler/Errors.jsm
+# toolkit/components/formautofill/android/FormAutofillPrompter.jsm
+# toolkit/components/formautofill/android/FormAutofillStorage.jsm
+# toolkit/components/formautofill/default/FormAutofillPrompter.jsm
+# toolkit/components/formautofill/default/FormAutofillStorage.jsm
+# toolkit/components/crashes/CrashManager.in.jsm
+# @@
 
 # These files shouldn't be renamed
 #
@@ -152,13 +287,6 @@ browser/components/aboutlogins/tests/browser/AboutLoginsTestUtils.jsm
 browser/components/attribution/AttributionCode.jsm
 browser/components/attribution/MacAttribution.jsm
 browser/components/colorways/ColorwayClosetOpener.jsm
-browser/components/customizableui/CustomizableUI.jsm
-browser/components/customizableui/CustomizableWidgets.jsm
-browser/components/customizableui/CustomizeMode.jsm
-browser/components/customizableui/DragPositionManager.jsm
-browser/components/customizableui/PanelMultiView.jsm
-browser/components/customizableui/SearchWidgetTracker.jsm
-browser/components/customizableui/test/CustomizableUITestUtils.jsm
 browser/components/doh/DoHConfig.jsm
 browser/components/doh/DoHController.jsm
 browser/components/doh/DoHHeuristics.jsm
@@ -321,47 +449,6 @@ browser/components/translation/YandexTranslator.jsm
 browser/components/uitour/UITour.jsm
 browser/components/uitour/UITourChild.jsm
 browser/components/uitour/UITourParent.jsm
-browser/components/urlbar/UrlbarController.jsm
-browser/components/urlbar/UrlbarEventBufferer.jsm
-browser/components/urlbar/UrlbarInput.jsm
-browser/components/urlbar/UrlbarMuxerUnifiedComplete.jsm
-browser/components/urlbar/UrlbarProviderAboutPages.jsm
-browser/components/urlbar/UrlbarProviderAliasEngines.jsm
-browser/components/urlbar/UrlbarProviderAutofill.jsm
-browser/components/urlbar/UrlbarProviderBookmarkKeywords.jsm
-browser/components/urlbar/UrlbarProviderCalculator.jsm
-browser/components/urlbar/UrlbarProviderExtension.jsm
-browser/components/urlbar/UrlbarProviderHeuristicFallback.jsm
-browser/components/urlbar/UrlbarProviderInputHistory.jsm
-browser/components/urlbar/UrlbarProviderInterventions.jsm
-browser/components/urlbar/UrlbarProviderOmnibox.jsm
-browser/components/urlbar/UrlbarProviderOpenTabs.jsm
-browser/components/urlbar/UrlbarProviderPlaces.jsm
-browser/components/urlbar/UrlbarProviderPreloadedSites.jsm
-browser/components/urlbar/UrlbarProviderPrivateSearch.jsm
-browser/components/urlbar/UrlbarProviderQuickSuggest.jsm
-browser/components/urlbar/UrlbarProviderRemoteTabs.jsm
-browser/components/urlbar/UrlbarProviderSearchSuggestions.jsm
-browser/components/urlbar/UrlbarProviderSearchTips.jsm
-browser/components/urlbar/UrlbarProviderTabToSearch.jsm
-browser/components/urlbar/UrlbarProviderTokenAliasEngines.jsm
-browser/components/urlbar/UrlbarProviderTopSites.jsm
-browser/components/urlbar/UrlbarProviderUnitConversion.jsm
-browser/components/urlbar/UrlbarProvidersManager.jsm
-browser/components/urlbar/UrlbarQuickSuggest.jsm
-browser/components/urlbar/UrlbarResult.jsm
-browser/components/urlbar/UrlbarSearchOneOffs.jsm
-browser/components/urlbar/UrlbarSearchUtils.jsm
-browser/components/urlbar/UrlbarTokenizer.jsm
-browser/components/urlbar/UrlbarUtils.jsm
-browser/components/urlbar/UrlbarValueFormatter.jsm
-browser/components/urlbar/UrlbarView.jsm
-browser/components/urlbar/tests/UrlbarTestUtils.jsm
-browser/components/urlbar/tests/quicksuggest/QuickSuggestTestUtils.jsm
-browser/components/urlbar/unitconverters/UnitConverterSimple.jsm
-browser/components/urlbar/unitconverters/UnitConverterTemperature.jsm
-browser/components/urlbar/unitconverters/UnitConverterTimezone.jsm
-browser/extensions/report-site-issue/experimentalAPIs/actors/tabExtrasActor.jsm
 browser/extensions/webcompat/about-compat/AboutCompat.jsm
 browser/modules/AboutNewTab.jsm
 browser/modules/AppUpdater.jsm
@@ -492,7 +579,6 @@ dom/url/tests/file_worker_url.jsm
 dom/url/tests/test_bug883784.jsm
 dom/workers/test/WorkerTest.jsm
 dom/xslt/xslt/txEXSLTRegExFunctions.jsm
-editor/AsyncSpellCheckTestHelper.jsm
 extensions/permissions/test/PermissionTestUtils.jsm
 gfx/layers/apz/test/mochitest/FissionTestHelperChild.jsm
 gfx/layers/apz/test/mochitest/FissionTestHelperParent.jsm
@@ -582,49 +668,6 @@ netwerk/dns/PublicSuffixList.jsm
 netwerk/protocol/http/WellKnownOpportunisticUtils.jsm
 netwerk/test/browser/early_hint_preload_test_helper.jsm
 netwerk/url-classifier/UrlClassifierExceptionListService.jsm
-remote/cdp/CDP.jsm
-remote/cdp/CDPConnection.jsm
-remote/cdp/Error.jsm
-remote/cdp/JSONHandler.jsm
-remote/cdp/Protocol.jsm
-remote/cdp/StreamRegistry.jsm
-remote/cdp/domains/ContentProcessDomain.jsm
-remote/cdp/domains/ContentProcessDomains.jsm
-remote/cdp/domains/Domain.jsm
-remote/cdp/domains/DomainCache.jsm
-remote/cdp/domains/ParentProcessDomains.jsm
-remote/cdp/domains/content/DOM.jsm
-remote/cdp/domains/content/Emulation.jsm
-remote/cdp/domains/content/Input.jsm
-remote/cdp/domains/content/Log.jsm
-remote/cdp/domains/content/Network.jsm
-remote/cdp/domains/content/Page.jsm
-remote/cdp/domains/content/Performance.jsm
-remote/cdp/domains/content/Runtime.jsm
-remote/cdp/domains/content/Security.jsm
-remote/cdp/domains/content/runtime/ExecutionContext.jsm
-remote/cdp/domains/parent/Browser.jsm
-remote/cdp/domains/parent/Emulation.jsm
-remote/cdp/domains/parent/Fetch.jsm
-remote/cdp/domains/parent/IO.jsm
-remote/cdp/domains/parent/Input.jsm
-remote/cdp/domains/parent/Network.jsm
-remote/cdp/domains/parent/Page.jsm
-remote/cdp/domains/parent/Security.jsm
-remote/cdp/domains/parent/Target.jsm
-remote/cdp/domains/parent/page/DialogHandler.jsm
-remote/cdp/observers/ChannelEventSink.jsm
-remote/cdp/observers/ContextObserver.jsm
-remote/cdp/observers/NetworkObserver.jsm
-remote/cdp/observers/TargetObserver.jsm
-remote/cdp/sessions/ContentProcessSession.jsm
-remote/cdp/sessions/MainProcessSession.jsm
-remote/cdp/sessions/Session.jsm
-remote/cdp/sessions/TabSession.jsm
-remote/cdp/targets/MainProcessTarget.jsm
-remote/cdp/targets/TabTarget.jsm
-remote/cdp/targets/Target.jsm
-remote/cdp/targets/TargetList.jsm
 remote/components/Marionette.jsm
 remote/components/RemoteAgent.jsm
 remote/marionette/actors/MarionetteCommandsChild.jsm
@@ -650,7 +693,6 @@ remote/shared/listeners/BrowsingContextListener.jsm
 remote/shared/listeners/ConsoleAPIListener.jsm
 remote/shared/listeners/ConsoleListener.jsm
 remote/shared/listeners/LoadListener.jsm
-remote/shared/messagehandler/Errors.jsm
 remote/shared/messagehandler/EventsDispatcher.jsm
 remote/shared/messagehandler/MessageHandler.jsm
 remote/shared/messagehandler/MessageHandlerRegistry.jsm
@@ -677,22 +719,6 @@ remote/shared/messagehandler/transports/FrameTransport.jsm
 remote/shared/messagehandler/transports/js-window-actors/MessageHandlerFrameActor.jsm
 remote/shared/messagehandler/transports/js-window-actors/MessageHandlerFrameChild.jsm
 remote/shared/messagehandler/transports/js-window-actors/MessageHandlerFrameParent.jsm
-remote/shared/webdriver/Assert.jsm
-remote/shared/webdriver/Capabilities.jsm
-remote/shared/webdriver/Errors.jsm
-remote/shared/webdriver/KeyData.jsm
-remote/shared/webdriver/Session.jsm
-remote/webdriver-bidi/NewSessionHandler.jsm
-remote/webdriver-bidi/RemoteValue.jsm
-remote/webdriver-bidi/WebDriverBiDi.jsm
-remote/webdriver-bidi/WebDriverBiDiConnection.jsm
-remote/webdriver-bidi/modules/ModuleRegistry.jsm
-remote/webdriver-bidi/modules/root/browsingContext.jsm
-remote/webdriver-bidi/modules/root/log.jsm
-remote/webdriver-bidi/modules/root/session.jsm
-remote/webdriver-bidi/modules/windowglobal-in-root/log.jsm
-remote/webdriver-bidi/modules/windowglobal/browsingContext.jsm
-remote/webdriver-bidi/modules/windowglobal/log.jsm
 security/manager/ssl/DER.jsm
 security/manager/ssl/RemoteSecuritySettings.jsm
 security/manager/ssl/X509.jsm
@@ -746,13 +772,11 @@ testing/mochitest/ShutdownLeaksCollector.jsm
 testing/mochitest/tests/Harness_sanity/ImportTesting.jsm
 testing/modules/AppData.jsm
 testing/modules/AppInfo.jsm
-testing/modules/Assert.jsm
 testing/modules/CoverageUtils.jsm
 testing/modules/FileTestUtils.jsm
 testing/modules/MockRegistrar.jsm
 testing/modules/MockRegistry.jsm
 testing/modules/Sinon.jsm
-testing/modules/StructuredLog.jsm
 testing/modules/TestUtils.jsm
 testing/modules/XPCShellContentUtils.jsm
 testing/specialpowers/content/AppTestDelegate.jsm
@@ -859,7 +883,6 @@ toolkit/components/contentprefs/ContentPrefUtils.jsm
 toolkit/components/contentprefs/tests/unit_cps2/AsyncRunner.jsm
 toolkit/components/contextualidentity/ContextualIdentityService.jsm
 toolkit/components/corroborator/Corroborate.jsm
-toolkit/components/crashes/CrashManager.in.jsm
 toolkit/components/crashes/CrashManagerTest.jsm
 toolkit/components/crashes/CrashService.jsm
 toolkit/components/crashmonitor/CrashMonitor.jsm
@@ -938,10 +961,6 @@ toolkit/components/formautofill/FormAutofillSync.jsm
 toolkit/components/formautofill/FormAutofillTelemetryUtils.jsm
 toolkit/components/formautofill/FormAutofillUtils.jsm
 toolkit/components/formautofill/ProfileAutoCompleteResult.jsm
-toolkit/components/formautofill/android/FormAutofillPrompter.jsm
-toolkit/components/formautofill/android/FormAutofillStorage.jsm
-toolkit/components/formautofill/default/FormAutofillPrompter.jsm
-toolkit/components/formautofill/default/FormAutofillStorage.jsm
 toolkit/components/formautofill/phonenumberutils/PhoneNumber.jsm
 toolkit/components/formautofill/phonenumberutils/PhoneNumberMetaData.jsm
 toolkit/components/formautofill/phonenumberutils/PhoneNumberNormalizer.jsm
@@ -956,12 +975,6 @@ toolkit/components/narrate/NarrateControls.jsm
 toolkit/components/narrate/Narrator.jsm
 toolkit/components/narrate/VoiceSelect.jsm
 toolkit/components/narrate/test/NarrateTestUtils.jsm
-toolkit/components/nimbus/ExperimentAPI.jsm
-toolkit/components/nimbus/lib/ExperimentManager.jsm
-toolkit/components/nimbus/lib/ExperimentStore.jsm
-toolkit/components/nimbus/lib/RemoteSettingsExperimentLoader.jsm
-toolkit/components/nimbus/lib/SharedDataMap.jsm
-toolkit/components/nimbus/test/NimbusTestUtils.jsm
 toolkit/components/normandy/Normandy.jsm
 toolkit/components/normandy/NormandyMigrations.jsm
 toolkit/components/normandy/ShieldContentProcess.jsm
@@ -1247,7 +1260,6 @@ toolkit/mozapps/update/UpdateListener.jsm
 toolkit/mozapps/update/UpdateService.jsm
 toolkit/mozapps/update/UpdateServiceStub.jsm
 toolkit/mozapps/update/UpdateTelemetry.jsm
-tools/code-coverage/PerTestCoverageUtils.jsm
 uriloader/exthandler/HandlerList.jsm
 uriloader/exthandler/WebHandlerApp.jsm
 uriloader/exthandler/tests/HandlerServiceTestUtils.jsm
@@ -1259,13 +1271,6 @@ browser/components/syncedtabs/SyncedTabsListStore.js
 browser/components/syncedtabs/TabListComponent.js
 browser/components/syncedtabs/TabListView.js
 browser/components/syncedtabs/util.js
-devtools/client/performance-new/popup/menu-button.jsm.js
-devtools/client/performance-new/popup/panel.jsm.js
-devtools/client/performance-new/symbolication.jsm.js
-devtools/client/performance-new/typescript-lazy-load.jsm.js
-devtools/shared/loader/base-loader.js
-devtools/shared/loader/browser-loader.js
-netwerk/test/httpserver/httpd.js
 remote/marionette/accessibility.js
 remote/marionette/action.js
 remote/marionette/addon.js
@@ -1346,15 +1351,12 @@ toolkit/components/certviewer/content/certDecoder.js
 toolkit/components/certviewer/content/vendor/asn1js_bundle.js
 toolkit/components/certviewer/content/vendor/pkijs_bundle.js
 toolkit/components/certviewer/content/vendor/pvutils_bundle.js
-toolkit/components/lz4/lz4.js
-toolkit/components/lz4/lz4_internal.js
 toolkit/components/normandy/actions/schemas/index.js
 toolkit/components/passwordmgr/crypto-SDR.js
 toolkit/components/passwordmgr/storage-geckoview.js
 toolkit/components/passwordmgr/storage-json.js
 toolkit/components/pdfjs/content/build/pdf.sandbox.external.js
 toolkit/components/pdfjs/pdfjs.js
-toolkit/mozapps/extensions/addonManager.js
 EOF
 )
 

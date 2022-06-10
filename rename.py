@@ -90,6 +90,7 @@ def rename(file):
         renamed = True
 
     if not renamed:
+        print('{} is not found in any build file'.format(file))
         return
 
     path.rename(path.parent / esm_name)

@@ -1,5 +1,4 @@
-const path = require("path");
-let { isESMified } = require(path.resolve(__dirname, "./is-esmified.js"));
+const { isESMified } = require(require("path").resolve(__dirname, "./is-esmified.js"));
 
 /* global module */
 
@@ -132,153 +131,165 @@ function tryReplacingWithStatciImport(jscodeshift, inputFile, path, resourceURIN
   return true;
 }
 
+function replaceImportCall(inputFile, jscodeshift, path) {
+  if (path.node.arguments.length !== 1) {
+    warnForPath(inputFile, path, `import call should have only one argument`);
+    return;
+  }
+
+  const resourceURINode = path.node.arguments[0];
+  if (!isString(resourceURINode)) {
+    warnForPath(inputFile, path, `resource URI should be a string`);
+    return;
+  }
+
+  const resourceURI = resourceURINode.value;
+  if (!resourceURINode.value.match(/\.(jsm|js|jsm\.js)$/)) {
+    warnForPath(inputFile, path, `Non-jsm: ${resourceURI}`);
+    return;
+  }
+
+  if (!isESMified(resourceURI)) {
+    return;
+  }
+
+  if (!tryReplacingWithStatciImport(jscodeshift, inputFile, path, resourceURINode)) {
+    path.node.callee.object.name = "ChromeUtils";
+    path.node.callee.property.name = "importESM";
+    resourceURINode.value = esmifiy(resourceURINode.value);
+  }
+}
+
+function replaceLazyGetterCall(inputFile, jscodeshift, path) {
+  if (path.node.arguments.length !== 3) {
+    warnForPath(inputFile, path, `lazy getter call should have 3 arguments`);
+    return;
+  }
+
+  const nameNode = path.node.arguments[1];
+  if (!isString(nameNode)) {
+    warnForPath(inputFile, path, `name should be a string`);
+    return;
+  }
+
+  const resourceURINode = path.node.arguments[2];
+  if (!isString(resourceURINode)) {
+    warnForPath(inputFile, path, `resource URI should be a string`);
+    return;
+  }
+
+  const resourceURI = resourceURINode.value;
+  if (!resourceURINode.value.match(/\.(jsm|js|jsm\.js)$/)) {
+    warnForPath(inputFile, path, `Non-js/jsm: ${resourceURI}`);
+    return;
+  }
+
+  if (!isESMified(resourceURI)) {
+    return;
+  }
+
+  const name = nameNode.value;
+
+  path.node.callee.object.name = "ChromeUtils";
+  path.node.callee.property.name = "defineESMGetters";
+  resourceURINode.value = esmifiy(resourceURINode.value);
+  path.node.arguments = [
+    path.node.arguments[0],
+    jscodeshift.objectExpression([
+      jscodeshift.property("init", nameNode, resourceURINode),
+    ]),
+  ];
+}
+
+function replaceLazyGettersCall(inputFile, jscodeshift, path) {
+  if (path.node.arguments.length !== 2) {
+    warnForPath(inputFile, path, `lazy getters call should have 2 arguments`);
+    return;
+  }
+
+  const modulesNode = path.node.arguments[1];
+  if (modulesNode.type !== "ObjectExpression") {
+    warnForPath(inputFile, path, `modules parameter should be an object`);
+    return;
+  }
+
+  const esmProps = [];
+  const jsmProps = [];
+
+  for (const prop of modulesNode.properties) {
+    const resourceURINode = prop.value;
+    if (!isString(resourceURINode)) {
+      warnForPath(inputFile, path, `resource URI should be a string`);
+      jsmProps.push(prop);
+      continue;
+    }
+
+    const resourceURI = resourceURINode.value;
+    if (!resourceURINode.value.match(/\.(jsm|js|jsm\.js)$/)) {
+      warnForPath(inputFile, path, `Non-js/jsm: ${resourceURI}`);
+      jsmProps.push(prop);
+      continue;
+    }
+
+    if (!isESMified(resourceURI)) {
+      jsmProps.push(prop);
+      continue;
+    }
+
+    esmProps.push(prop);
+  }
+
+  if (esmProps.length === 0) {
+    return;
+  }
+
+  if (jsmProps.length === 0) {
+    path.node.callee.object.name = "ChromeUtils";
+    path.node.callee.property.name = "defineESMGetters";
+    for (const prop of esmProps) {
+      const resourceURINode = prop.value;
+      resourceURINode.value = esmifiy(resourceURINode.value);
+    }
+  } else {
+    if (path.parent.node.type !== "ExpressionStatement") {
+      warnForPath(inputFile, path, `lazy getters call in unexpected context`);
+      return;
+    }
+
+    for (const prop of esmProps) {
+      const resourceURINode = prop.value;
+      resourceURINode.value = esmifiy(resourceURINode.value);
+    }
+
+    const callStmt = jscodeshift.expressionStatement(
+      jscodeshift.callExpression(
+        jscodeshift.memberExpression(
+          jscodeshift.identifier("ChromeUtils"),
+          jscodeshift.identifier("defineESMGetters")
+        ),
+        [
+          path.node.arguments[0],
+          jscodeshift.objectExpression(esmProps),
+        ]
+      )
+    );
+
+    callStmt.comments = path.parent.node.comments;
+    path.parent.node.comments = [];
+    path.parent.insertBefore(callStmt);
+
+    path.node.arguments[1].properties = jsmProps;
+  }
+}
+
 function doTranslate(inputFile, jscodeshift, root) {
   root.find(jscodeshift.CallExpression).forEach(path => {
     if (isImportCall(path.node)) {
-      if (path.node.arguments.length !== 1) {
-        warnForPath(inputFile, path, `import call should have only one argument`);
-        return;
-      }
-
-      const resourceURINode = path.node.arguments[0];
-      if (!isString(resourceURINode)) {
-        warnForPath(inputFile, path, `resource URI should be a string`);
-        return;
-      }
-
-      const resourceURI = resourceURINode.value;
-      if (!resourceURINode.value.match(/\.(jsm|js|jsm\.js)$/)) {
-        warnForPath(inputFile, path, `Non-jsm: ${resourceURI}`);
-        return;
-      }
-
-      if (!isESMified(resourceURI)) {
-        return;
-      }
-
-      if (!tryReplacingWithStatciImport(jscodeshift, inputFile, path, resourceURINode)) {
-        path.node.callee.object.name = "ChromeUtils";
-        path.node.callee.property.name = "importESM";
-        resourceURINode.value = esmifiy(resourceURINode.value);
-      }
+      replaceImportCall(inputFile, jscodeshift, path);
     } else if (isLazyGetterCall(path.node)) {
-      if (path.node.arguments.length !== 3) {
-        warnForPath(inputFile, path, `lazy getter call should have 3 arguments`);
-        return;
-      }
-
-      const nameNode = path.node.arguments[1];
-      if (!isString(nameNode)) {
-        warnForPath(inputFile, path, `name should be a string`);
-        return;
-      }
-
-      const resourceURINode = path.node.arguments[2];
-      if (!isString(resourceURINode)) {
-        warnForPath(inputFile, path, `resource URI should be a string`);
-        return;
-      }
-
-      const resourceURI = resourceURINode.value;
-      if (!resourceURINode.value.match(/\.(jsm|js|jsm\.js)$/)) {
-        warnForPath(inputFile, path, `Non-js/jsm: ${resourceURI}`);
-        return;
-      }
-
-      if (!isESMified(resourceURI)) {
-        return;
-      }
-
-      const name = nameNode.value;
-
-      path.node.callee.object.name = "ChromeUtils";
-      path.node.callee.property.name = "defineESMGetters";
-      resourceURINode.value = esmifiy(resourceURINode.value);
-      path.node.arguments = [
-        path.node.arguments[0],
-        jscodeshift.objectExpression([
-          jscodeshift.property("init", nameNode, resourceURINode),
-        ]),
-      ];
+      replaceLazyGetterCall(inputFile, jscodeshift, path);
     } else if (isLazyGettersCall(path.node)) {
-      if (path.node.arguments.length !== 2) {
-        warnForPath(inputFile, path, `lazy getters call should have 2 arguments`);
-        return;
-      }
-
-      const modulesNode = path.node.arguments[1];
-      if (modulesNode.type !== "ObjectExpression") {
-        warnForPath(inputFile, path, `modules parameter should be an object`);
-        return;
-      }
-
-      const esmProps = [];
-      const jsmProps = [];
-
-      for (const prop of modulesNode.properties) {
-        const resourceURINode = prop.value;
-        if (!isString(resourceURINode)) {
-          warnForPath(inputFile, path, `resource URI should be a string`);
-          jsmProps.push(prop);
-          continue;
-        }
-
-        const resourceURI = resourceURINode.value;
-        if (!resourceURINode.value.match(/\.(jsm|js|jsm\.js)$/)) {
-          warnForPath(inputFile, path, `Non-js/jsm: ${resourceURI}`);
-          jsmProps.push(prop);
-          continue;
-        }
-
-        if (!isESMified(resourceURI)) {
-          jsmProps.push(prop);
-          continue;
-        }
-
-        esmProps.push(prop);
-      }
-
-      if (esmProps.length === 0) {
-        return;
-      }
-
-      if (jsmProps.length === 0) {
-        path.node.callee.object.name = "ChromeUtils";
-        path.node.callee.property.name = "defineESMGetters";
-        for (const prop of esmProps) {
-          const resourceURINode = prop.value;
-          resourceURINode.value = esmifiy(resourceURINode.value);
-        }
-      } else {
-        if (path.parent.node.type !== "ExpressionStatement") {
-          warnForPath(inputFile, path, `lazy getters call in unexpected context`);
-          return;
-        }
-
-        for (const prop of esmProps) {
-          const resourceURINode = prop.value;
-          resourceURINode.value = esmifiy(resourceURINode.value);
-        }
-
-        const callStmt = jscodeshift.expressionStatement(
-          jscodeshift.callExpression(
-            jscodeshift.memberExpression(
-              jscodeshift.identifier("ChromeUtils"),
-              jscodeshift.identifier("defineESMGetters")
-            ),
-            [
-              path.node.arguments[0],
-              jscodeshift.objectExpression(esmProps),
-            ]
-          )
-        );
-
-        callStmt.comments = path.parent.node.comments;
-        path.parent.node.comments = [];
-        path.parent.insertBefore(callStmt);
-
-        path.node.arguments[1].properties = jsmProps;
-      }
+      replaceLazyGettersCall(inputFile, jscodeshift, path);
     }
   });
 }

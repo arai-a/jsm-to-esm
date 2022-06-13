@@ -181,6 +181,10 @@ do_test ${RULE} tests/import_lazy_xpcom.sys.mjs
 
 do_test ${RULE} tests/import_lazy_multi.sys.mjs
 
+# actor
+
+do_test ${RULE} tests/actor.sys.mjs
+
 # ---- summary ----
 
 echo ""

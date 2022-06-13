@@ -1,4 +1,4 @@
-const { isESMified } = require(require("path").resolve(__dirname, "./is-esmified.js"));
+let { isESMified } = require(require("path").resolve(__dirname, "./is-esmified.js"));
 
 /* global module */
 
@@ -66,8 +66,10 @@ function warnForPath(inputFile, path, message) {
   console.log(`WARNING: ${inputFile}:${loc.start.line}:${loc.start.column} : ${message}`);
 }
 
+const extPattern = /\.(jsm|js|jsm\.js)$/;
+
 function esmifiy(s) {
-  return s.replace(/\.(jsm|js|jsm\.js)$/, ".sys.mjs");
+  return s.replace(extPattern, ".sys.mjs");
 }
 
 function isString(node) {
@@ -121,7 +123,7 @@ function tryReplacingWithStatciImport(jscodeshift, inputFile, path, resourceURIN
     return false;
   }
 
-  resourceURINode.value = esmifiy(resourceURINode.value);
+  resourceURINode.value = esmifiy(resourceURI);
 
   const e = jscodeshift.importDeclaration(specs, resourceURINode);
   e.comments = path.parent.parent.node.comments;
@@ -130,6 +132,8 @@ function tryReplacingWithStatciImport(jscodeshift, inputFile, path, resourceURIN
 
   return true;
 }
+
+
 
 function replaceImportCall(inputFile, jscodeshift, path) {
   if (path.node.arguments.length !== 1) {
@@ -144,7 +148,7 @@ function replaceImportCall(inputFile, jscodeshift, path) {
   }
 
   const resourceURI = resourceURINode.value;
-  if (!resourceURINode.value.match(/\.(jsm|js|jsm\.js)$/)) {
+  if (!resourceURI.match(extPattern)) {
     warnForPath(inputFile, path, `Non-jsm: ${resourceURI}`);
     return;
   }
@@ -156,7 +160,7 @@ function replaceImportCall(inputFile, jscodeshift, path) {
   if (!tryReplacingWithStatciImport(jscodeshift, inputFile, path, resourceURINode)) {
     path.node.callee.object.name = "ChromeUtils";
     path.node.callee.property.name = "importESM";
-    resourceURINode.value = esmifiy(resourceURINode.value);
+    resourceURINode.value = esmifiy(resourceURI);
   }
 }
 
@@ -179,7 +183,7 @@ function replaceLazyGetterCall(inputFile, jscodeshift, path) {
   }
 
   const resourceURI = resourceURINode.value;
-  if (!resourceURINode.value.match(/\.(jsm|js|jsm\.js)$/)) {
+  if (!resourceURI.match(extPattern)) {
     warnForPath(inputFile, path, `Non-js/jsm: ${resourceURI}`);
     return;
   }
@@ -192,7 +196,7 @@ function replaceLazyGetterCall(inputFile, jscodeshift, path) {
 
   path.node.callee.object.name = "ChromeUtils";
   path.node.callee.property.name = "defineESMGetters";
-  resourceURINode.value = esmifiy(resourceURINode.value);
+  resourceURINode.value = esmifiy(resourceURI);
   path.node.arguments = [
     path.node.arguments[0],
     jscodeshift.objectExpression([
@@ -225,7 +229,7 @@ function replaceLazyGettersCall(inputFile, jscodeshift, path) {
     }
 
     const resourceURI = resourceURINode.value;
-    if (!resourceURINode.value.match(/\.(jsm|js|jsm\.js)$/)) {
+    if (!resourceURI.match(extPattern)) {
       warnForPath(inputFile, path, `Non-js/jsm: ${resourceURI}`);
       jsmProps.push(prop);
       continue;
@@ -282,6 +286,56 @@ function replaceLazyGettersCall(inputFile, jscodeshift, path) {
   }
 }
 
+function getProp(obj, key) {
+  if (obj.type !== "ObjectExpression") {
+    return null;
+  }
+
+  for (const prop of obj.properties) {
+    if (prop.computed) {
+      continue;
+    }
+
+    if (IsIdentifier(prop.key, key)) {
+      return prop;
+    }
+  }
+
+  return null;
+}
+
+function tryReplaceActorDefinition(inputFile, path, name) {
+  const obj = path.node;
+
+  const prop = getProp(obj, name);
+  if (!prop) {
+    return;
+  }
+
+  const moduleURIProp = getProp(prop.value, "moduleURI");
+  if (!moduleURIProp) {
+    return;
+  }
+
+  if (!isString(moduleURIProp.value)) {
+    warnForPath(inputFile, path, `${name} moduleURI should be a string`);
+    return;
+  }
+
+  const moduleURI = moduleURIProp.value.value;
+  if (!moduleURI.match(extPattern)) {
+    warnForPath(inputFile, path, `${name} Non-js/jsm: ${moduleURI}`);
+    return;
+  }
+
+  if (!isESMified(moduleURI)) {
+    return;
+  }
+
+  moduleURIProp.key.name = "esmURI";
+  moduleURIProp.value.value = esmifiy(moduleURI);
+}
+
 function doTranslate(inputFile, jscodeshift, root) {
   root.find(jscodeshift.CallExpression).forEach(path => {
     if (isImportCall(path.node)) {
@@ -291,5 +345,10 @@ function doTranslate(inputFile, jscodeshift, root) {
     } else if (isLazyGettersCall(path.node)) {
       replaceLazyGettersCall(inputFile, jscodeshift, path);
     }
+  });
+
+  root.find(jscodeshift.ObjectExpression).forEach(path => {
+    tryReplaceActorDefinition(inputFile, path, "parent");
+    tryReplaceActorDefinition(inputFile, path, "child");
   });
 }

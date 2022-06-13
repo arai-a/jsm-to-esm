@@ -64,7 +64,11 @@ $ path/to/jsm-to-esm/node_modules/.bin/jscodeshift \
 $ ./mach eslint --fix path/to/file.sys.mjs
 ```
 
-## TODO
+Supported APIs are the following:
 
- * `ChromeUtils.registerWindowActor`
- * `ChromeUtils.registerProcessActor`
+ * `Cu.import`
+ * `ChromeUtils.import`
+ * `XPCOMUtils.defineLazyModuleGetter`
+ * `ChromeUtils.defineModuleGetter`
+ * `XPCOMUtils.defineLazyModuleGetters`
+ * process/window actor definition objects

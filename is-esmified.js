@@ -1308,14 +1308,14 @@ const uri_map = {
   "resource://devtools/client/performance-new/popup/background.jsm.js": "devtools/client/performance-new/popup/background.jsm.js",
 };
 
-function esmifiy(s) {
+function esmify(s) {
   return s.replace(/\.(jsm|js|jsm\.js)$/, ".sys.mjs");
 }
 
 function isESMifiedSlow(resourceURI) {
   if (!(resourceURI in uri_map)) {
     console.log(`WARNING: Unknown module: ${resourceURI}`);
-    return false;
+    return { result: false, jsms: [] };
   }
 
   let jsms = uri_map[resourceURI];
@@ -1325,24 +1325,28 @@ function isESMifiedSlow(resourceURI) {
 
   for (const jsm of jsms) {
     if (fs.existsSync(jsm)) {
-      return false;
+      return { result: false, jsms };
     }
-    const esm = esmifiy(jsm);
+    const esm = esmify(jsm);
     if (!fs.existsSync(esm)) {
-      return false;
+      return { result: false, jsms };
     }
   }
 
-  return true;
+  return { result: true, jsms };
 }
 
 const isESMified_memo = {};
-function isESMified(resourceURI) {
+function isESMified(resourceURI, files) {
   if (!(resourceURI in isESMified_memo)) {
     isESMified_memo[resourceURI] = isESMifiedSlow(resourceURI);
   }
 
-  return isESMified_memo[resourceURI];
+  for (const jsm of isESMified_memo[resourceURI].jsms) {
+    files.push(esmify(jsm));
+  }
+
+  return isESMified_memo[resourceURI].result;
 }
 
 exports.isESMified = isESMified;

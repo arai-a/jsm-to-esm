@@ -57,8 +57,6 @@ the imported module is already ESM-ified.
 This script checks if the file is ESM-ified, and the map between the URI and
 the path is defined in `is-esmified.js`.
 
-`ChromeUtils.import` at the top-level is converted to static import declaration.
-
 ```
 $ cd path/to/mozilla-unified
 $ path/to/jsm-to-esm/node_modules/.bin/jscodeshift \
@@ -75,3 +73,13 @@ Supported APIs are the following:
  * `ChromeUtils.defineModuleGetter`
  * `XPCOMUtils.defineLazyModuleGetters`
  * process/window actor definition objects
+
+`Cu.import` and `ChromeUtils.import` at the top-level of system ESM are
+converted to static import declaration.
+
+By default, this script converts reference to all JSMs.
+The target can be reduced by modifying `targetFilePrefix` option in `config.js`.
+
+```
+
+```

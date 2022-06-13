@@ -1,11 +1,15 @@
-let { isESMified } = require(require("path").resolve(__dirname, "./is-esmified.js"));
+const _path = require("path");
+const { isESMified } = require(_path.resolve(__dirname, "./is-esmified.js"));
+const config = require(_path.resolve(__dirname, "./config.js"));
+
+let isTest = false;
 
 /* global module */
 
 module.exports = function(fileInfo, api) {
   // Special mode for testing.
   if (fileInfo.path.startsWith('./tests/output/')) {
-    isESMified = () => true;
+    isTest = true;
   }
 
   const { jscodeshift } = api;
@@ -15,6 +19,25 @@ module.exports = function(fileInfo, api) {
 };
 
 module.exports.doTranslate = doTranslate;
+
+function isESMifiedAndTarget(resourceURI) {
+  if (isTest) {
+    return true;
+  }
+
+  const files = [];
+  if (!isESMified(resourceURI, files)) {
+    return false;
+  }
+
+  for (const esm of files) {
+    if (esm.startsWith(config.import_rewrite.targetFilePrefix)) {
+      return true;
+    }
+  }
+
+  return false;
+}
 
 function IsIdentifier(node, name) {
   if (node.type !== "Identifier") {
@@ -68,7 +91,7 @@ function warnForPath(inputFile, path, message) {
 
 const extPattern = /\.(jsm|js|jsm\.js)$/;
 
-function esmifiy(s) {
+function esmify(s) {
   return s.replace(extPattern, ".sys.mjs");
 }
 
@@ -123,7 +146,7 @@ function tryReplacingWithStatciImport(jscodeshift, inputFile, path, resourceURIN
     return false;
   }
 
-  resourceURINode.value = esmifiy(resourceURI);
+  resourceURINode.value = esmify(resourceURI);
 
   const e = jscodeshift.importDeclaration(specs, resourceURINode);
   e.comments = path.parent.parent.node.comments;
@@ -153,14 +176,14 @@ function replaceImportCall(inputFile, jscodeshift, path) {
     return;
   }
 
-  if (!isESMified(resourceURI)) {
+  if (!isESMifiedAndTarget(resourceURI)) {
     return;
   }
 
   if (!tryReplacingWithStatciImport(jscodeshift, inputFile, path, resourceURINode)) {
     path.node.callee.object.name = "ChromeUtils";
     path.node.callee.property.name = "importESM";
-    resourceURINode.value = esmifiy(resourceURI);
+    resourceURINode.value = esmify(resourceURI);
   }
 }
 
@@ -188,7 +211,7 @@ function replaceLazyGetterCall(inputFile, jscodeshift, path) {
     return;
   }
 
-  if (!isESMified(resourceURI)) {
+  if (!isESMifiedAndTarget(resourceURI)) {
     return;
   }
 
@@ -196,7 +219,7 @@ function replaceLazyGetterCall(inputFile, jscodeshift, path) {
 
   path.node.callee.object.name = "ChromeUtils";
   path.node.callee.property.name = "defineESMGetters";
-  resourceURINode.value = esmifiy(resourceURI);
+  resourceURINode.value = esmify(resourceURI);
   path.node.arguments = [
     path.node.arguments[0],
     jscodeshift.objectExpression([
@@ -235,7 +258,7 @@ function replaceLazyGettersCall(inputFile, jscodeshift, path) {
       continue;
     }
 
-    if (!isESMified(resourceURI)) {
+    if (!isESMifiedAndTarget(resourceURI)) {
       jsmProps.push(prop);
       continue;
     }
@@ -252,7 +275,7 @@ function replaceLazyGettersCall(inputFile, jscodeshift, path) {
     path.node.callee.property.name = "defineESMGetters";
     for (const prop of esmProps) {
       const resourceURINode = prop.value;
-      resourceURINode.value = esmifiy(resourceURINode.value);
+      resourceURINode.value = esmify(resourceURINode.value);
     }
   } else {
     if (path.parent.node.type !== "ExpressionStatement") {
@@ -262,7 +285,7 @@ function replaceLazyGettersCall(inputFile, jscodeshift, path) {
 
     for (const prop of esmProps) {
       const resourceURINode = prop.value;
-      resourceURINode.value = esmifiy(resourceURINode.value);
+      resourceURINode.value = esmify(resourceURINode.value);
     }
 
     const callStmt = jscodeshift.expressionStatement(
@@ -293,6 +316,10 @@ function getProp(obj, key) {
 
   for (const prop of obj.properties) {
     if (prop.computed) {
+      continue;
+    }
+
+    if (!prop.key) {
       continue;
     }
 
@@ -328,12 +355,12 @@ function tryReplaceActorDefinition(inputFile, path, name) {
     return;
   }
 
-  if (!isESMified(moduleURI)) {
+  if (!isESMifiedAndTarget(moduleURI)) {
     return;
   }
 
   moduleURIProp.key.name = "esmURI";
-  moduleURIProp.value.value = esmifiy(moduleURI);
+  moduleURIProp.value.value = esmify(moduleURI);
 }
 
 function doTranslate(inputFile, jscodeshift, root) {

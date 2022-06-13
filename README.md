@@ -54,6 +54,9 @@ $ ./mach eslint --fix path/to/file.sys.mjs
 For each `ChromeUtils.import` or related APIs, convert it to ESM-variant if
 the imported module is already ESM-ified.
 
+This script checks if the file is ESM-ified, and the map between the URI and
+the path is defined in `is-esmified.js`.
+
 `ChromeUtils.import` at the top-level is converted to static import declaration.
 
 ```

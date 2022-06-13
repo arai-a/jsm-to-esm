@@ -80,6 +80,26 @@ converted to static import declaration.
 By default, this script converts reference to all JSMs.
 The target can be reduced by modifying `targetFilePrefix` option in `config.js`.
 
-```
+## Expected workflow
 
-```
+ 1. Decide which directory to ESM-ify
+ 2. Clone this repository
+ 3. Put the directory's path to `targetFilePrefix` field in `config.js`
+    * So that import for other files aren't touched by `import-to-import_esm.js`
+ 4. Run `rename.py` for each JSM in the directory
+    * If the script doesn't detect the reference to the file in build files 
+      (`moz.build` etc), manually rename the file and fix the references in 
+      the build files
+    * Also fix any other references to the file. e.g.:
+      * ESLint `import-globals-from` rule
+      * `importScripts` call if the file is also loaded by worker
+      * `Services.scriptloader.loadSubScript` call if the file is also loaded 
+        as a sub script
+      * Documentation
+ 5. Apply `exported_symbols-to-declarations.js` for each ESM-ified file in the 
+    directory, to convert `EXPORTED_SYMBOLS` to `export` declaration
+ 6. Apply `import-to-import_esm.js` for each files in the directory that 
+    imports the ESM-ified files, to convert any import and lazy getters for
+    the modules
+ 7. Apply `./mach eslint --fix` for all files
+ 8. Commit

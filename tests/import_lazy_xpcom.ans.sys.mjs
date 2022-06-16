@@ -2,6 +2,6 @@
 
 const lazy = {};
 
-ChromeUtils.defineESMGetters(lazy, {
+ChromeUtils.defineESModuleGetters(lazy, {
   "AddonManager": "resource://gre/modules/AddonManager.sys.mjs"
 });

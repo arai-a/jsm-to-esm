@@ -26,7 +26,7 @@ If no reference is found, this script doesn't rename the file.
  * `xpcshell-child-process.ini`
  * `xpcshell-common.ini`
  * `xpcshell-parent-process.ini`
- * `components.conf` (including replacing property name "jsm" to "esm")
+ * `components.conf` (including replacing property name "jsm" to "esModule")
 
 NOTE: This does not guarantee all references in build files are rewritten.
 Especially if the file is referred from other subdirectory.
@@ -49,7 +49,7 @@ $ path/to/jsm-to-esm/node_modules/.bin/jscodeshift \
 $ ./mach eslint --fix path/to/file.sys.mjs
 ```
 
-## Convert `ChromeUtils.import` to `ChromeUtils.importESM`
+## Convert `ChromeUtils.import` to `ChromeUtils.importESModule`
 
 For each `ChromeUtils.import` or related APIs, convert it to ESM-variant if
 the imported module is already ESM-ified.
@@ -60,7 +60,7 @@ the path is defined in `is-esmified.js`.
 ```
 $ cd path/to/mozilla-unified
 $ path/to/jsm-to-esm/node_modules/.bin/jscodeshift \
-    -t path/to/jsm-to-esm/import-to-import_esm.js \
+    -t path/to/jsm-to-esm/import-to-import_esmodule.js \
     path/to/file.sys.mjs
 $ ./mach eslint --fix path/to/file.sys.mjs
 ```
@@ -85,7 +85,7 @@ The target can be reduced by modifying `targetFilePrefix` option in `config.js`.
  1. Decide which directory to ESM-ify
  2. Clone this repository
  3. Put the directory's path to `targetFilePrefix` field in `config.js`
-    * So that import for other files aren't touched by `import-to-import_esm.js`
+    * So that import for other files aren't touched by `import-to-import_esmodule.js`
  4. Run `rename.py` for each JSM in the directory
     * If the script doesn't detect the reference to the file in build files 
       (`moz.build` etc), manually rename the file and fix the references in 
@@ -98,7 +98,7 @@ The target can be reduced by modifying `targetFilePrefix` option in `config.js`.
       * Documentation
  5. Apply `exported_symbols-to-declarations.js` for each ESM-ified file in the 
     directory, to convert `EXPORTED_SYMBOLS` to `export` declaration
- 6. Apply `import-to-import_esm.js` for each files in the directory that 
+ 6. Apply `import-to-import_esmodule.js` for each files in the directory that 
     imports the ESM-ified files, to convert any import and lazy getters for
     the modules
  7. Apply `./mach eslint --fix` for all files

@@ -55,7 +55,7 @@ def try_rename_components_conf(path, jsm_name, esm_name):
     print(str(target_path))
     print(' ', path, '=>', esm_name)
 
-    content = prop_re.sub("'esm':\\1" + esm_name, content)
+    content = prop_re.sub("'esModule':\\1" + esm_name, content)
     with open(target_path, 'w') as f:
         f.write(content)
 

@@ -1,5 +1,5 @@
 "use strict";
 
 {
-  const ns = ChromeUtils.importESM("resource://gre/modules/XPCOMUtils.sys.mjs");
+  const ns = ChromeUtils.importESModule("resource://gre/modules/XPCOMUtils.sys.mjs");
 }

@@ -182,7 +182,7 @@ function replaceImportCall(inputFile, jscodeshift, path) {
 
   if (!tryReplacingWithStatciImport(jscodeshift, inputFile, path, resourceURINode)) {
     path.node.callee.object.name = "ChromeUtils";
-    path.node.callee.property.name = "importESM";
+    path.node.callee.property.name = "importESModule";
     resourceURINode.value = esmify(resourceURI);
   }
 }
@@ -218,7 +218,7 @@ function replaceLazyGetterCall(inputFile, jscodeshift, path) {
   const name = nameNode.value;
 
   path.node.callee.object.name = "ChromeUtils";
-  path.node.callee.property.name = "defineESMGetters";
+  path.node.callee.property.name = "defineESModuleGetters";
   resourceURINode.value = esmify(resourceURI);
   path.node.arguments = [
     path.node.arguments[0],
@@ -272,7 +272,7 @@ function replaceLazyGettersCall(inputFile, jscodeshift, path) {
 
   if (jsmProps.length === 0) {
     path.node.callee.object.name = "ChromeUtils";
-    path.node.callee.property.name = "defineESMGetters";
+    path.node.callee.property.name = "defineESModuleGetters";
     for (const prop of esmProps) {
       const resourceURINode = prop.value;
       resourceURINode.value = esmify(resourceURINode.value);
@@ -292,7 +292,7 @@ function replaceLazyGettersCall(inputFile, jscodeshift, path) {
       jscodeshift.callExpression(
         jscodeshift.memberExpression(
           jscodeshift.identifier("ChromeUtils"),
-          jscodeshift.identifier("defineESMGetters")
+          jscodeshift.identifier("defineESModuleGetters")
         ),
         [
           path.node.arguments[0],
@@ -359,7 +359,7 @@ function tryReplaceActorDefinition(inputFile, path, name) {
     return;
   }
 
-  moduleURIProp.key.name = "esmURI";
+  moduleURIProp.key.name = "esModuleURI";
   moduleURIProp.value.value = esmify(moduleURI);
 }
 

@@ -2,7 +2,7 @@ let JSPROCESSACTORS = {
   // Miscellaneous stuff that needs to be initialized per process.
   BrowserProcess: {
     child: {
-      esmURI: "resource:///actors/BrowserProcessChild.sys.mjs",
+      esModuleURI: "resource:///actors/BrowserProcessChild.sys.mjs",
       observers: [
         // WebRTC related notifications. They are here to avoid loading WebRTC
         // components when not needed.
@@ -17,10 +17,10 @@ let JSPROCESSACTORS = {
 
   outProtections: {
     parent: {
-      esmURI: "resource:///actors/AboutProtectionsParent.sys.mjs",
+      esModuleURI: "resource:///actors/AboutProtectionsParent.sys.mjs",
     },
     child: {
-      esmURI: "resource:///actors/AboutProtectionsChild.sys.mjs",
+      esModuleURI: "resource:///actors/AboutProtectionsChild.sys.mjs",
 
       events: {
         DOMDocElementInserted: { capture: true },
@@ -32,7 +32,7 @@ let JSPROCESSACTORS = {
 
   Prompt: {
     parent: {
-      esmURI: "resource:///actors/PromptParent.sys.mjs",
+      esModuleURI: "resource:///actors/PromptParent.sys.mjs",
     },
     includeChrome: true,
     allFrames: true,

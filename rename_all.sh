@@ -1385,4 +1385,4 @@ fi
 ../jsm-to-esm/node_modules/.bin/jscodeshift \
     -t ../jsm-to-esm/exported_symbols-to-declarations.js ${ESMS}
 ../jsm-to-esm/node_modules/.bin/jscodeshift \
-    -t ../jsm-to-esm/import-to-import_esm.js ${ESMS}
+    -t ../jsm-to-esm/import-to-import_esmodule.js ${ESMS}

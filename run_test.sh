@@ -148,7 +148,7 @@ do_error_test ${RULE} tests/error_missing_exported_multi.js
 
 # ---- tests: import ----
 
-RULE=import-to-import_esm.js
+RULE=import-to-import_esmodule.js
 
 # basic import
 

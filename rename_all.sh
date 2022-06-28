@@ -2,20 +2,6 @@
 
 # These files are not yet ready for ESM-ification.
 #
-# devtools/shared/loader/worker-loader.js
-# devtools/shared/worker/worker.js
-# mobile/android/modules/geckoview/AndroidLog.jsm
-# services/fxaccounts/FxAccountsCommon.js
-# services/sync/modules/constants.js
-# toolkit/components/lz4/lz4.js
-# toolkit/components/lz4/lz4_internal.js
-# toolkit/components/osfile/modules/osfile_shared_allthreads.jsm
-# toolkit/components/osfile/modules/osfile_unix_allthreads.jsm
-# toolkit/components/osfile/modules/osfile_win_allthreads.jsm
-# toolkit/components/osfile/modules/ospath.jsm
-# toolkit/components/osfile/modules/ospath_unix.jsm
-# toolkit/components/osfile/modules/ospath_win.jsm
-# toolkit/components/osfile/osfile.jsm
 # browser/components/customizableui/CustomizableUI.jsm
 # browser/components/customizableui/CustomizableWidgets.jsm
 # browser/components/customizableui/CustomizeMode.jsm
@@ -64,12 +50,27 @@
 # browser/components/urlbar/unitconverters/UnitConverterTemperature.jsm
 # browser/components/urlbar/unitconverters/UnitConverterTimezone.jsm
 # browser/extensions/report-site-issue/experimentalAPIs/actors/tabExtrasActor.jsm
+# devtools/shared/loader/worker-loader.js
+# devtools/shared/worker/worker.js
+# mobile/android/modules/geckoview/AndroidLog.jsm
+# remote/marionette/action.js
+# services/fxaccounts/FxAccountsCommon.js
+# services/sync/modules/constants.js
+# toolkit/components/lz4/lz4.js
+# toolkit/components/lz4/lz4_internal.js
 # toolkit/components/nimbus/ExperimentAPI.jsm
 # toolkit/components/nimbus/lib/ExperimentManager.jsm
 # toolkit/components/nimbus/lib/ExperimentStore.jsm
 # toolkit/components/nimbus/lib/RemoteSettingsExperimentLoader.jsm
 # toolkit/components/nimbus/lib/SharedDataMap.jsm
 # toolkit/components/nimbus/test/NimbusTestUtils.jsm
+# toolkit/components/osfile/modules/osfile_shared_allthreads.jsm
+# toolkit/components/osfile/modules/osfile_unix_allthreads.jsm
+# toolkit/components/osfile/modules/osfile_win_allthreads.jsm
+# toolkit/components/osfile/modules/ospath.jsm
+# toolkit/components/osfile/modules/ospath_unix.jsm
+# toolkit/components/osfile/modules/ospath_win.jsm
+# toolkit/components/osfile/osfile.jsm
 # @@
 
 # These files needs special handling.
@@ -88,6 +89,7 @@
 # dom/media/webvtt/update-webvtt.js
 # dom/media/webvtt/vtt.jsm
 # dom/push/PushService.jsm
+# editor/AsyncSpellCheckTestHelper.jsm
 # intl/l10n/FluentSyntax.jsm
 # js/xpconnect/tests/unit/bogus_element_type.jsm
 # js/xpconnect/tests/unit/bogus_exports_type.jsm
@@ -98,33 +100,6 @@
 # python/mozbuild/mozbuild/test/backend/data/build/baz.jsm
 # python/mozbuild/mozbuild/test/backend/data/build/foo.jsm
 # python/mozbuild/mozbuild/test/backend/data/build/qux.jsm
-# remote/marionette/atom.js
-# remote/shared/messagehandler/test/browser/resources/modules/root/invalid.jsm
-# services/common/kinto-http-client.js
-# services/common/kinto-offline-client.js
-# services/sync/tps/extensions/tps/resource/tps.jsm
-# toolkit/components/bitsdownload/Bits.jsm
-# toolkit/components/ctypes/ctypes.jsm
-# toolkit/components/extensions/Extension.jsm
-# toolkit/components/lz4/lz4.js
-# toolkit/components/lz4/lz4_internal.js
-# toolkit/components/normandy/vendor/PropTypes.js
-# toolkit/components/normandy/vendor/React.js
-# toolkit/components/normandy/vendor/ReactDOM.js
-# toolkit/components/normandy/vendor/classnames.js
-# toolkit/components/passwordmgr/PasswordRulesParser.jsm
-# toolkit/components/reader/Readerable.jsm
-# toolkit/components/utils/mozjexl.js
-# toolkit/modules/AppConstants.jsm
-# toolkit/modules/subprocess/subprocess_common.jsm
-# toolkit/modules/subprocess/subprocess_unix.jsm
-# toolkit/modules/subprocess/subprocess_win.jsm
-# toolkit/modules/third_party/fathom/fathom.jsm
-# toolkit/modules/third_party/jsesc/jsesc.js
-# toolkit/mozapps/extensions/addonManager.js
-# editor/AsyncSpellCheckTestHelper.jsm
-# testing/modules/StructuredLog.jsm
-# tools/code-coverage/PerTestCoverageUtils.jsm
 # remote/cdp/CDP.jsm
 # remote/cdp/CDPConnection.jsm
 # remote/cdp/Error.jsm
@@ -168,6 +143,9 @@
 # remote/cdp/targets/TabTarget.jsm
 # remote/cdp/targets/Target.jsm
 # remote/cdp/targets/TargetList.jsm
+# remote/marionette/atom.js
+# remote/shared/messagehandler/Errors.jsm
+# remote/shared/messagehandler/test/browser/resources/modules/root/invalid.jsm
 # remote/shared/webdriver/Assert.jsm
 # remote/shared/webdriver/Capabilities.jsm
 # remote/shared/webdriver/Errors.jsm
@@ -184,13 +162,36 @@
 # remote/webdriver-bidi/modules/windowglobal-in-root/log.jsm
 # remote/webdriver-bidi/modules/windowglobal/browsingContext.jsm
 # remote/webdriver-bidi/modules/windowglobal/log.jsm
+# services/common/kinto-http-client.js
+# services/common/kinto-offline-client.js
+# services/sync/tps/extensions/tps/resource/tps.jsm
 # testing/modules/Assert.jsm
-# remote/shared/messagehandler/Errors.jsm
+# testing/modules/StructuredLog.jsm
+# toolkit/components/bitsdownload/Bits.jsm
+# toolkit/components/crashes/CrashManager.in.jsm
+# toolkit/components/ctypes/ctypes.jsm
+# toolkit/components/extensions/Extension.jsm
 # toolkit/components/formautofill/android/FormAutofillPrompter.jsm
 # toolkit/components/formautofill/android/FormAutofillStorage.jsm
 # toolkit/components/formautofill/default/FormAutofillPrompter.jsm
 # toolkit/components/formautofill/default/FormAutofillStorage.jsm
-# toolkit/components/crashes/CrashManager.in.jsm
+# toolkit/components/lz4/lz4.js
+# toolkit/components/lz4/lz4_internal.js
+# toolkit/components/normandy/vendor/PropTypes.js
+# toolkit/components/normandy/vendor/React.js
+# toolkit/components/normandy/vendor/ReactDOM.js
+# toolkit/components/normandy/vendor/classnames.js
+# toolkit/components/passwordmgr/PasswordRulesParser.jsm
+# toolkit/components/reader/Readerable.jsm
+# toolkit/components/utils/mozjexl.js
+# toolkit/modules/AppConstants.jsm
+# toolkit/modules/subprocess/subprocess_common.jsm
+# toolkit/modules/subprocess/subprocess_unix.jsm
+# toolkit/modules/subprocess/subprocess_win.jsm
+# toolkit/modules/third_party/fathom/fathom.jsm
+# toolkit/modules/third_party/jsesc/jsesc.js
+# toolkit/mozapps/extensions/addonManager.js
+# tools/code-coverage/PerTestCoverageUtils.jsm
 # @@
 
 # These files shouldn't be renamed
@@ -1272,7 +1273,6 @@ browser/components/syncedtabs/TabListComponent.js
 browser/components/syncedtabs/TabListView.js
 browser/components/syncedtabs/util.js
 remote/marionette/accessibility.js
-remote/marionette/action.js
 remote/marionette/addon.js
 remote/marionette/appinfo.js
 remote/marionette/browser.js
@@ -1347,10 +1347,10 @@ services/sync/modules/sync_auth.js
 services/sync/modules/telemetry.js
 services/sync/modules/util.js
 services/sync/tps/extensions/tps/resource/quit.js
-toolkit/components/certviewer/content/certDecoder.js
-toolkit/components/certviewer/content/vendor/asn1js_bundle.js
-toolkit/components/certviewer/content/vendor/pkijs_bundle.js
-toolkit/components/certviewer/content/vendor/pvutils_bundle.js
+toolkit/components/certviewer/content/certDecoder.jsm
+toolkit/components/certviewer/content/vendor/asn1js_bundle.jsm
+toolkit/components/certviewer/content/vendor/pkijs_bundle.jsm
+toolkit/components/certviewer/content/vendor/pvutils_bundle.jsm
 toolkit/components/normandy/actions/schemas/index.js
 toolkit/components/passwordmgr/crypto-SDR.js
 toolkit/components/passwordmgr/storage-geckoview.js

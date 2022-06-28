@@ -7,6 +7,6 @@ module.exports = {
     // e.g.
     //   * "toolkit/modules/Services.sys.mjs"
     //   * "toolkit/modules/"
-    targetFilePrefix: "toolkit/modules/",
+    targetFilePrefix: "",
   }
 };

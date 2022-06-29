@@ -15,7 +15,7 @@ module.exports = function(fileInfo, api) {
   const { jscodeshift } = api;
   const root = jscodeshift(fileInfo.source);
   doTranslate(fileInfo.path, jscodeshift, root);
-  return root.toSource();
+  return root.toSource({ lineTerminator: "\n" });
 };
 
 module.exports.doTranslate = doTranslate;

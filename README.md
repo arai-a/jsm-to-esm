@@ -1,5 +1,7 @@
 # Convert JSM to ESM
 
+WARNING: This functionality is going to be integrated into mach command itself ([bug 1776870](https://bugzilla.mozilla.org/show_bug.cgi?id=1776870)). Please do not use this repository.
+
 Rules and scripts to convert mozilla-unified in-tree JSM files to ESM.
 
 ## Preparation
